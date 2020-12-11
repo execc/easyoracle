@@ -49,6 +49,8 @@ services:
       - ./config/auth-service/env
       - ./config/nginx.env
     restart: always
+    volumes:
+      - ./config/frontend/keys:/app/dist/src/keys
     networks:
       - wavesenterprise-network
   data-service:
