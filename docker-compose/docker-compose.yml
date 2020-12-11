@@ -74,7 +74,7 @@ services:
     networks:
       - wavesenterprise-network
   crawler:
-    image: registry.wavesenterprise.com/vostok/crawler:v1.3.1
+    image: registry.wavesenterprise.com/vostok/crawler2:v1.3.1
     container_name: crawler
     depends_on:
       - auth-service
