@@ -29,7 +29,6 @@ services:
     depends_on:
       - auth-service
     env_file:
-      - ./nodes/frontend/config/nginx-proxy.env
       - ./config/frontend/env
       - ./config/nginx.env
     restart: always
