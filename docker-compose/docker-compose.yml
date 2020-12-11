@@ -37,6 +37,7 @@ services:
   auth-service:
     image: registry.wavesenterprise.com/vostok/auth-service:v1.3.1
     container_name: auth-service
+    hostname: auth-service
     depends_on:
       - db
     ports:
@@ -51,6 +52,7 @@ services:
     restart: always
     volumes:
       - ./config/frontend/keys:/app/dist/src/keys
+      - ./config/auth-service/tokens.json:/app/tokens.json
     networks:
       - wavesenterprise-network
   data-service:
