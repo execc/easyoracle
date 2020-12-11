@@ -11,9 +11,9 @@ upstream auth-service {
 }
 
 upstream node-address {
-  server node-1:6862;
+  server node-0:6862;
+  server node-1:6862 backup;
   server node-2:6862 backup;
-  server node-3:6862 backup;
 }
 
 server {
