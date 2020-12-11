@@ -3,13 +3,103 @@ networks:
    wavesenterprise-network:
      driver: bridge
 services:
+  nginx-proxy:
+    image: nginx:1.17
+    container_name: nginx-proxy
+    ports:
+      - 80:80
+    depends_on:
+      - data-service
+      - node-1
+      - node-2
+      - node-3
+      - auth-service
+      - frontend
+    volumes:
+      - ./config/frontend/nginx.template:/etc/nginx/conf.d/nginx.template
+    command: /bin/bash -c "envsubst < /etc/nginx/conf.d/nginx.template > /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'"
+    restart: always
+    networks:
+      - wavesenterprise-network
+  frontend:
+    image: registry.wavesenterprise.com/vostok/frontend:v1.3.1
+    container_name: frontend
+    volumes:
+      - ./config/frontend/app.config.json:/usr/share/nginx/html/app.config.json
+    depends_on:
+      - auth-service
+    env_file:
+      - ./nodes/frontend/config/nginx-proxy.env
+      - ./config/frontend/env
+      - ./config/nginx.env
+    restart: always
+    networks:
+      - wavesenterprise-network
+  auth-service:
+    image: registry.wavesenterprise.com/vostok/auth-service:v1.3.1
+    container_name: auth-service
+    depends_on:
+      - db
+    ports:
+      - 3000:3000
+    links:
+      - db
+    environment:
+      - ACTIVATE_USER_ON_REGISTER=true
+    env_file:
+      - ./config/auth-service/env
+      - ./config/nginx.env
+    restart: always
+    networks:
+      - wavesenterprise-network
+  data-service:
+    image: registry.wavesenterprise.com/vostok/data-service:v1.3.1
+    container_name: data-service
+    depends_on:
+      - db
+      - auth-service
+    healthcheck:
+      test: ["CMD", "curl", "-f", "-X GET http://auth-service:3000/status -H accept: application/json"]
+      interval: 9s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    ports:
+      - 3001:3000
+    env_file:
+      - ./config/data-service/env
+      - ./config/postgres.env
+      - ./config/nginx.env
+    command: sh -c "sleep 60; npm start"
+    restart: always
+    networks:
+      - wavesenterprise-network
+  crawler:
+    image: registry.wavesenterprise.com/vostok/crawler:v1.3.1
+    container_name: crawler
+    depends_on:
+      - auth-service
+      - db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "-X GET http://auth-service:3000/status -H accept: application/json"]
+      interval: 9s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    env_file:
+      - ./config/crawler/env
+      - ./config/postgres.env
+      - ./config/nginx.env
+    restart: always
+    networks:
+      - wavesenterprise-network
   db:
     image: postgres:11
     restart: always
     container_name: db
     env_file: ./config/db/env
     environment:
-      - POSTGRES_MULTIPLE_DATABASES=node_0,node_1,node_2
+      - POSTGRES_MULTIPLE_DATABASES=node_0,node_1,node_2,blockchain,auth_db
     expose:
       - 5432
     volumes:

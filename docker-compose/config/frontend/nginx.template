@@ -1,0 +1,75 @@
+upstream frontend {
+  server frontend:8080;
+}
+
+upstream data-service {
+  server data-service:3000;
+}
+
+upstream auth-service {
+  server auth-service:3000;
+}
+
+upstream node-address {
+  server node-1:6862;
+  server node-2:6862 backup;
+  server node-3:6862 backup;
+}
+
+server {
+  listen 80 default_server;
+  server_name data-service;
+  root  /usr/share/nginx/html;
+
+  gzip on;
+  gzip_disable "msie6";
+  gzip_comp_level 5;
+  gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript;
+
+  location /nodeAddress/ {
+  	add_header 'Access-Control-Allow-Origin' '*';
+  	add_header 'Access-Control-Allow-Credentials' 'true';
+  	add_header 'Content-Type' 'application/json';
+  	add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
+  	add_header 'Access-Control-Allow-Headers' 'Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
+
+  	# expose headers for other request methods
+  	add_header 'Access-Control-Expose-Headers' 'Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
+        proxy_pass http://node-address/;
+  }
+
+  location /dataServiceAddress/ {
+  	add_header 'Access-Control-Allow-Origin' '*';
+  	add_header 'Access-Control-Allow-Credentials' 'true';
+  	add_header 'Content-Type' 'application/json';
+  	add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
+  	add_header 'Access-Control-Allow-Headers' 'Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
+
+  	# expose headers for other request methods
+  	add_header 'Access-Control-Expose-Headers' 'Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
+    	proxy_pass http://data-service/;
+  }
+
+  location /authServiceAddress/ {
+  	add_header 'Access-Control-Allow-Origin' '*';
+  	add_header 'Access-Control-Allow-Credentials' 'true';
+  	add_header 'Content-Type' 'application/json';
+  	add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
+  	add_header 'Access-Control-Allow-Headers' 'Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
+
+  	# expose headers for other request methods
+  	add_header 'Access-Control-Expose-Headers' 'Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
+    	proxy_pass http://auth-service/;
+  }
+
+  location / {
+    add_header 'Access-Control-Allow-Origin' '*';
+    add_header 'Access-Control-Allow-Credentials' 'true';
+    add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT, DELETE, OPTIONS';
+    add_header 'Access-Control-Allow-Headers' 'Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
+
+    # expose headers for other request methods
+    add_header 'Access-Control-Expose-Headers' 'Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range';
+    proxy_pass http://frontend;
+   }
+}
