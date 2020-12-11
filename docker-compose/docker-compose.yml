@@ -10,9 +10,9 @@ services:
       - 80:80
     depends_on:
       - data-service
+      - node-0
       - node-1
       - node-2
-      - node-3
       - auth-service
       - frontend
     volumes:
