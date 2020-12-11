@@ -22,7 +22,7 @@ services:
     networks:
       - wavesenterprise-network
   frontend:
-    image: registry.wavesenterprise.com/vostok/frontend:v1.3.1
+    image: registry.wavesenterprise.com/vostok/frontend-app:v1.3.1
     container_name: frontend
     volumes:
       - ./config/frontend/app.config.json:/usr/share/nginx/html/app.config.json
