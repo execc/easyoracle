@@ -21,25 +21,3 @@ spring:
 tx-observer:
   queue-mode: TEST
   fixedDelayString:
-
-node:
-  validation-enabled: false
-  config:
-    node-0:
-      url: http://node-0
-      xApiKey: apiKey
-      nodeOwnerAddress: nodeAddress
-      nodeOwnerPubKey:
-      keyStorePassword:
-    node-1:
-      url: http://node-1
-      xApiKey: apiKey
-      nodeOwnerAddress: nodeAddress
-      nodeOwnerPubKey:
-      keyStorePassword:
-    node-2:
-      url: http://node-2
-      xApiKey: apiKey
-      nodeOwnerAddress: nodeAddress
-      nodeOwnerPubKey:
-      keyStorePassword:

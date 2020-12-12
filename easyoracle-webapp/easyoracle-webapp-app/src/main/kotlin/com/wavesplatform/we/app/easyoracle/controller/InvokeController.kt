@@ -17,8 +17,8 @@ class InvokeController(
 
     @PostMapping
     fun create(): ResponseEntity<TxDto> {
-        val id = contractService.create()
-        return ResponseEntity(TxDto(id), ACCEPTED)
+        //val id = contractService.create()
+        return ResponseEntity(TxDto(""), ACCEPTED)
     }
 
     @PostMapping("{contractId}/invoke")

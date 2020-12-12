@@ -59,6 +59,8 @@ dependencies {
     implementation("com.wavesplatform.we:vst-tx-observer-starter:$vstCommonsVersion")
     implementation("com.wavesplatform.we:we-boot-starter:$weBootStarterVersion")
 
+    implementation("com.jayway.jsonpath:json-path:2.5.0")
+
     implementation(project(":easyoracle-contract:easyoracle-contract-app"))
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")

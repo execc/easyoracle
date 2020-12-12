@@ -34,7 +34,7 @@ fun getDate(): String {
 
     return formatter.format(current)
 }
-val dockerName = "registry.wavesenterprise.com/image-sc/easyoracle-contract-app"
+val dockerName = "akafakir/easyoracle-contract-app"
 val bootJar: BootJar by tasks
 docker {
     name = dockerName

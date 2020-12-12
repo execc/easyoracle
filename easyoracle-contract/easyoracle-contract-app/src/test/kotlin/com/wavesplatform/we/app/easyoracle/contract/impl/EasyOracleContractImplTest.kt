@@ -6,16 +6,15 @@ import com.wavesplatform.vst.contract.state.InMemoryContractState
 import com.wavesplatform.vst.contract.utils.JsonUtils
 import com.wavesplatform.we.app.easyoracle.contract.Oracle
 import com.wavesplatform.we.app.easyoracle.contract.OracleData
-import org.bouncycastle.jce.provider.BouncyCastleProvider
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
 import java.security.KeyPair
 import java.security.KeyPairGenerator
 import java.security.SecureRandom
 import java.security.Security
 import java.security.spec.ECGenParameterSpec
 import java.util.Base64
-
+import org.bouncycastle.jce.provider.BouncyCastleProvider
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
 
 class EasyOracleContractImplTest {
 
@@ -23,11 +22,10 @@ class EasyOracleContractImplTest {
         Security.addProvider(BouncyCastleProvider())
     }
 
-
     @Test
     fun testAllSignaturesValid2OutOf3() {
         val state = InMemoryContractState("", mapOf())
-        var contract = EasyOracleContractImpl(state, mockTx("ORACLE1",103))
+        var contract = EasyOracleContractImpl(state, mockTx("ORACLE1", 103))
 
         // Create 3 different oracles
         //
@@ -74,14 +72,14 @@ class EasyOracleContractImplTest {
                 )
         )
 
-        contract = EasyOracleContractImpl(state, mockTx("ORACLE1",104))
+        contract = EasyOracleContractImpl(state, mockTx("ORACLE1", 104))
         contract.accept(dataPoints)
     }
 
     @Test
     fun testInvalidSignatures2OutOf3() {
         val state = InMemoryContractState("", mapOf())
-        var contract = EasyOracleContractImpl(state, mockTx("ORACLE1",103))
+        var contract = EasyOracleContractImpl(state, mockTx("ORACLE1", 103))
 
         // Create 3 different oracles
         //
@@ -128,7 +126,7 @@ class EasyOracleContractImplTest {
                 )
         )
 
-        contract = EasyOracleContractImpl(state, mockTx("ORACLE1",104))
+        contract = EasyOracleContractImpl(state, mockTx("ORACLE1", 104))
         Assertions.assertThrows(IllegalArgumentException::class.java) {
             contract.accept(dataPoints)
         }
@@ -137,7 +135,7 @@ class EasyOracleContractImplTest {
     @Test
     fun testAllSignaturesValidButOnly1Point() {
         val state = InMemoryContractState("", mapOf())
-        var contract = EasyOracleContractImpl(state, mockTx("ORACLE1",103))
+        var contract = EasyOracleContractImpl(state, mockTx("ORACLE1", 103))
 
         // Create 3 different oracles
         //
@@ -185,7 +183,7 @@ class EasyOracleContractImplTest {
                 )
         )
 
-        contract = EasyOracleContractImpl(state, mockTx("ORACLE1",104))
+        contract = EasyOracleContractImpl(state, mockTx("ORACLE1", 104))
         Assertions.assertThrows(IllegalArgumentException::class.java) {
             contract.accept(dataPoints)
         }
@@ -209,7 +207,7 @@ class EasyOracleContractImplTest {
         val data = "ABC"
 
         val state = InMemoryContractState("", mapOf())
-        val contract = EasyOracleContractImpl(state, mockTx("",103))
+        val contract = EasyOracleContractImpl(state, mockTx("", 103))
 
         val pub = Base64.getEncoder().encodeToString(publicKey.encoded)
         val prv = Base64.getEncoder().encodeToString(privateKey.encoded)

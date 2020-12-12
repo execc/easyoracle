@@ -1,4 +1,4 @@
-# easyoracle-app
+# Easy Oracle App
 
 ## Setting up
 Before building a project, create a file  `.gradle/gradle.properties`

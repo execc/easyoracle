@@ -8,15 +8,13 @@ import com.wavesplatform.vst.contract.utils.JsonUtils
 import com.wavesplatform.we.app.easyoracle.contract.EasyOracleContract
 import com.wavesplatform.we.app.easyoracle.contract.Oracle
 import com.wavesplatform.we.app.easyoracle.contract.OracleData
-import io.grpc.netty.ProtocolNegotiators.plaintext
-import org.bouncycastle.jce.provider.BouncyCastleProvider
 import java.security.KeyFactory
 import java.security.PrivateKey
 import java.security.PublicKey
 import java.security.Signature
 import java.security.spec.X509EncodedKeySpec
 import java.util.Base64
-
+import org.bouncycastle.jce.provider.BouncyCastleProvider
 
 const val KEY_ECDSA = "ECDSA"
 const val SIG_ECDSA = "SHA256withECDSA"
@@ -50,7 +48,7 @@ class EasyOracleContractImpl(
 
     override fun accept(data: List<OracleData>) {
         val signatures = state.get("SIGNATURES", Int::class.java)
-        val oracles = state.get("ORACLES", object: TypeReference<List<Oracle>>(){})
+        val oracles = state.get("ORACLES", object : TypeReference<List<Oracle>>() {})
 
         // First require that the sender of transaction is one of the valid oracles
         //
@@ -77,8 +75,8 @@ class EasyOracleContractImpl(
         // for this data point
         //
         val actualSignatures = possibleData.mapNotNull {
-            if (oracles.map { o -> o.publicKey }.contains(it.publicKey) // Valid oracle
-                    && verify(it.signature, JsonUtils.toJson(it.data), it.publicKey) // Valid signature
+            if (oracles.map { o -> o.publicKey }.contains(it.publicKey) && // Valid oracle
+                    verify(it.signature, JsonUtils.toJson(it.data), it.publicKey) // Valid signature
             ) {
                 it.publicKey
             } else {

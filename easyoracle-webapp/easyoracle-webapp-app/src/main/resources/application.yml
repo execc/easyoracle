@@ -99,34 +99,34 @@ feign:
         loggerLevel: basic
 
 easyoracle-app:
-  sender: 3HgjVZvBHNaVfU7fHx9mqDXeJy4J8khadRC
+  sender: 3QVUnXdCq7vMJDjfcuM7G5qCqFKeBQuac8P
   node-alias: node-0
   fee: 0
   contract:
     id: abc
-    image: registry.wavesenterprise.com/image-sc/easyoracle-contract-app
-    imageHash:
+    image:  akafakir/easyoracle-contract-app:1.0.0-SNAPSHOT-20201212143027-03afbd4.dirty
+    imageHash: cd47ceaf0919c26dad9d871be133ca2c9e272799df23215db9845e24c42b6f71
 
 node:
   config:
     node-0:
-      url: https://icore.weintegrator.com/node-0
-      xApiKey: svupkey
-      nodeOwnerAddress: 3HgjVZvBHNaVfU7fHx9mqDXeJy4J8khadRC
-      nodeOwnerPubKey: JFm1tUiPCygaaoirf8DSM31y2aB3LkJsRC3TTAmPdHX2L7FFRsskDThhjzpSNs4uTg3FWkVcUKYCiRv5djTNyfn
-      keyStorePassword:
+      url: http://84.201.170.115:6862
+      xApiKey: eGes8YFf3kGKmmPL
+      nodeOwnerAddress: 3QVUnXdCq7vMJDjfcuM7G5qCqFKeBQuac8P
+      nodeOwnerPubKey: 5U1u5LAxH62RehYfVeiHtRDS4uoQxZSVzYxVUeD1p7bXaTi51AEmgByvGQTokKGRbojFpJdMVP1TSwxHzc2AsSpW
+      keyStorePassword: 9P90mwgUMc7VbnfH
     node-1:
-      url: https://icore.weintegrator.com/node-1
-      xApiKey: svupkey
-      nodeOwnerAddress: 3HjAAEnZYYMKHf1Z1w6sgLSw48qtbxKafVy
-      nodeOwnerPubKey: 4sdv9RJPu8dBd4fDQAAdFJNNtveNQXa4kB4Ngafai8LsRAQBieuSNXW7SudnUXPqNqDQ1TB12PXvTzZCMLSJ7Mff
-      keyStorePassword:
+      url: http://84.201.170.115:16862
+      xApiKey: eGes8YFf3kGKmmPL
+      nodeOwnerAddress: 3Qbur18V2vQfJEcnkqM3H9ieNozVup4mG2v
+      nodeOwnerPubKey: 5vgrnvbLYrdPceDdX6Qd2r7v3756iRnchZ6bvzT7nWrCipZwLqXBYzYg1ipUMm1ZAeULxYEDN3Rj4caDNnPzRmQA
+      keyStorePassword: 9P90mwgUMc7VbnfH
     node-2:
-      url: https://icore.weintegrator.com/node-2
-      xApiKey: svupkey
-      nodeOwnerAddress: 3HUtx1GqP4tpsz98Nexztaz5hkbSgZTA21v
-      nodeOwnerPubKey: 4eUvUPXvhbQaLTgzdBadWm2U3B4EAZxyHqoQf35Yjz1PLcL8d1vDBSj64ZnBXtLkJMiz6QpHtggashAq6jJJMDn6
-      keyStorePassword:
+      url: http://84.201.170.115:26862
+      xApiKey: eGes8YFf3kGKmmPL
+      nodeOwnerAddress: 3QZdm3KxwX4GRdrdGLxeZ4xmEyrv5rEXCqF
+      nodeOwnerPubKey: 35Nk2nVJZDwYZFdcd8cDZnFhSQUNnwmNMcC55beoJbzeyvqoUzfcsybnPN7grH4QwNJQAhiePeyeXSNPtWhTm9zw
+      keyStorePassword: 9P90mwgUMc7VbnfH
 
 vst-oauth:
   url: https://icore.weintegrator.com/api/v0/vst-oauth2
