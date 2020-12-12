@@ -17,6 +17,8 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.security.KeyFactory
 import java.security.NoSuchAlgorithmException
+import java.security.PrivateKey
+import java.security.Signature
 import java.security.interfaces.ECPrivateKey
 import java.security.spec.InvalidKeySpecException
 import java.security.spec.PKCS8EncodedKeySpec
@@ -63,17 +65,17 @@ class EasyOracleContractImplTest {
                 OracleData(
                         data = JsonUtils.fromJson(data1, JsonNode::class.java),
                         publicKey = pubKey1,
-                        signature = contract.sign(key1.private, data1)
+                        signature = sign(key1.private, data1)
                 ),
                 OracleData(
                         data = JsonUtils.fromJson(data1, JsonNode::class.java),
                         publicKey = pubKey2,
-                        signature = contract.sign(key2.private, data1)
+                        signature = sign(key2.private, data1)
                 ),
                 OracleData(
                         data = JsonUtils.fromJson(data2, JsonNode::class.java),
                         publicKey = pubKey3,
-                        signature = contract.sign(key3.private, data2)
+                        signature = sign(key3.private, data2)
                 )
         )
 
@@ -117,17 +119,17 @@ class EasyOracleContractImplTest {
                 OracleData(
                         data = JsonUtils.fromJson(data1, JsonNode::class.java),
                         publicKey = pubKey1,
-                        signature = contract.sign(key1.private, data1)
+                        signature = sign(key1.private, data1)
                 ),
                 OracleData(
                         data = JsonUtils.fromJson(data1, JsonNode::class.java),
                         publicKey = pubKey2,
-                        signature = contract.sign(key2.private, data1 + "X") // Wrong signature
+                        signature = sign(key2.private, data1 + "X") // Wrong signature
                 ),
                 OracleData(
                         data = JsonUtils.fromJson(data2, JsonNode::class.java),
                         publicKey = pubKey3,
-                        signature = contract.sign(key3.private, data2)
+                        signature = sign(key3.private, data2)
                 )
         )
 
@@ -174,17 +176,17 @@ class EasyOracleContractImplTest {
                 OracleData(
                         data = JsonUtils.fromJson(data1, JsonNode::class.java),
                         publicKey = pubKey1,
-                        signature = contract.sign(key1.private, data1)
+                        signature = sign(key1.private, data1)
                 ),
                 OracleData(
                         data = JsonUtils.fromJson(data2, JsonNode::class.java),
                         publicKey = pubKey2,
-                        signature = contract.sign(key2.private, data2) // Wrong signature
+                        signature = sign(key2.private, data2) // Wrong signature
                 ),
                 OracleData(
                         data = JsonUtils.fromJson(data3, JsonNode::class.java),
                         publicKey = pubKey3,
-                        signature = contract.sign(key3.private, data3)
+                        signature = sign(key3.private, data3)
                 )
         )
 
@@ -217,7 +219,7 @@ class EasyOracleContractImplTest {
         val pub = Base64.getEncoder().encodeToString(publicKey.encoded)
         val prv = Base64.getEncoder().encodeToString(privateKey.encoded)
 
-        val sig = contract.sign(privateKey, data)
+        val sig = sign(privateKey, data)
         val result = contract.verify(sig, data, pub)
 
         loadPrivateKey(prv)
@@ -239,6 +241,15 @@ class EasyOracleContractImplTest {
         } catch (e: InvalidKeySpecException) {
             throw IllegalStateException("InvalidKeySpec", e)
         } as ECPrivateKey
+    }
+
+
+    fun sign(privateKey: PrivateKey, data: String): String {
+        val ecdsaSign = Signature.getInstance(SIG_ECDSA, BouncyCastleProvider())
+        ecdsaSign.initSign(privateKey)
+        ecdsaSign.update(data.toByteArray())
+        val signature = ecdsaSign.sign()
+        return Base64.getEncoder().encodeToString(signature)
     }
 
 }

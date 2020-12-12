@@ -9,7 +9,6 @@ import com.wavesplatform.we.app.easyoracle.contract.EasyOracleContract
 import com.wavesplatform.we.app.easyoracle.contract.Oracle
 import com.wavesplatform.we.app.easyoracle.contract.OracleData
 import java.security.KeyFactory
-import java.security.PrivateKey
 import java.security.PublicKey
 import java.security.Signature
 import java.security.spec.X509EncodedKeySpec
@@ -111,13 +110,5 @@ class EasyOracleContractImpl(
         sig.initVerify(publicKey)
         sig.update(data)
         return sig.verify(signature)
-    }
-
-    fun sign(privateKey: PrivateKey, data: String): String {
-        val ecdsaSign = Signature.getInstance(SIG_ECDSA, BouncyCastleProvider())
-        ecdsaSign.initSign(privateKey)
-        ecdsaSign.update(data.toByteArray())
-        val signature = ecdsaSign.sign()
-        return Base64.getEncoder().encodeToString(signature)
     }
 }
