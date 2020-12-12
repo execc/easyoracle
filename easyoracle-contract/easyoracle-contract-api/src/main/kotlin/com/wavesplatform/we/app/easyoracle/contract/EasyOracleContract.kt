@@ -46,6 +46,7 @@ data class Oracle(
 )
 
 data class OracleData(
-    val oracle: String,
+    val publicKey: String,
+    val signature: String,
     val data: JsonNode
 )
