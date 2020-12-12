@@ -1,0 +1,18 @@
+version: '3.4'
+networks:
+   wavesenterprise-network:
+     driver: bridge
+services:
+  oracle-1:
+    image: postgres:11
+    restart: always
+    container_name: oracle-1
+    hostname: oracle-1
+    environment:
+      - SPRING_PROFILES_ACTIVE=oracle1
+    expose:
+      - 8081
+    ports:
+      - 8081:8081
+    networks:
+      - wavesenterprise-network

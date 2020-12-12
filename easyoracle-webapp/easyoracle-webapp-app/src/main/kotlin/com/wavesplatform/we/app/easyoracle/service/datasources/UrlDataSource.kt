@@ -1,14 +1,16 @@
 package com.wavesplatform.we.app.easyoracle.service.datasources
 
 import com.jayway.jsonpath.JsonPath
+import java.lang.IllegalStateException
+import java.net.URI
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.RequestEntity
 import org.springframework.http.ResponseEntity
+import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.exchange
-import java.lang.IllegalStateException
-import java.net.URI
 
+@Component
 class UrlDataSource {
 
     fun eval(expression: String, transformation: String): Any {

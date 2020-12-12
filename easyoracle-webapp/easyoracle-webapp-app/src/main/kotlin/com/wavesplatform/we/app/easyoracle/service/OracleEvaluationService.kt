@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class OracleEvaluationService(
-        private val urlDataSource: UrlDataSource,
-        private val htmlDataSource: HtmlDataSource
+    private val urlDataSource: UrlDataSource,
+    private val htmlDataSource: HtmlDataSource
 ) {
 
     fun evalAll(definition: OracleDefinition): List<String> {

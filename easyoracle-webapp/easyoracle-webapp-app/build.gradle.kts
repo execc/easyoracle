@@ -109,7 +109,7 @@ val bootJar: BootJar by tasks
 
 tasks {
     docker {
-        name = "registry.wavesenterprise.com/image/${project.name}"
+        name = "akafakir/${project.name}"
         tags(if (version.toString().endsWith("-SNAPSHOT")) {
             "$version-${getDate()}-$gitVersion"
         } else {
