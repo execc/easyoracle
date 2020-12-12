@@ -1,0 +1,1 @@
+create unique index on oracle_task (definition_id, status) where status = 'IN_PROCESS';
