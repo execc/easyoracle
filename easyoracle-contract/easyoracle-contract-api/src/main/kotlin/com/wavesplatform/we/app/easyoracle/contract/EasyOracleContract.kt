@@ -34,6 +34,10 @@ interface EasyOracleContract {
     @ContractAction
     fun accept(
         /**
+         * A client-generated identifier to update contract
+         */
+        @InvokeParam(name = "requestId") requestId: String,
+        /**
          * List of oracle data points
          */
         @InvokeParam(name = "data") data: List<OracleData>

@@ -95,7 +95,7 @@ class OracleOrchestrator(
             log.info("Saving updated result ${task.id}")
             val signatures = updated.data.map { it.publicKey }.size
             if (signatures >= task.definition.signatures) {
-                val txId = easyOracleContractService.accept(task.definition.contractId, updated.data.map {
+                val txId = easyOracleContractService.accept(task.definition.contractId, task.id, updated.data.map {
                     OracleData(
                             publicKey = it.publicKey,
                             data = objectMapper.readValue(it.result, JsonNode::class.java),

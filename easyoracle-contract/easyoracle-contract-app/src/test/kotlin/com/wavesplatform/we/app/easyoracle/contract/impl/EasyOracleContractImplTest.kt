@@ -80,7 +80,7 @@ class EasyOracleContractImplTest {
         )
 
         contract = EasyOracleContractImpl(state, mockTx("ORACLE1", 104))
-        contract.accept(dataPoints)
+        contract.accept("req1", dataPoints)
     }
 
     @Test
@@ -135,7 +135,7 @@ class EasyOracleContractImplTest {
 
         contract = EasyOracleContractImpl(state, mockTx("ORACLE1", 104))
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            contract.accept(dataPoints)
+            contract.accept("req2", dataPoints)
         }
     }
 
@@ -192,7 +192,7 @@ class EasyOracleContractImplTest {
 
         contract = EasyOracleContractImpl(state, mockTx("ORACLE1", 104))
         Assertions.assertThrows(IllegalArgumentException::class.java) {
-            contract.accept(dataPoints)
+            contract.accept("req3", dataPoints)
         }
     }
 

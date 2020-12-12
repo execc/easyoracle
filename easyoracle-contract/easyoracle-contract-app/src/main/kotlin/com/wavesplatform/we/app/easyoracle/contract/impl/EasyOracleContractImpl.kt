@@ -45,7 +45,7 @@ class EasyOracleContractImpl(
         }
     }
 
-    override fun accept(data: List<OracleData>) {
+    override fun accept(requestId: String, data: List<OracleData>) {
         val signatures = state.get("SIGNATURES", Int::class.java)
         val oracles = state.get("ORACLES", object : TypeReference<List<Oracle>>() {})
 
@@ -54,6 +54,14 @@ class EasyOracleContractImpl(
         require(oracles.map { it.address }.contains(tx.sender)) {
             "Sender ${tx.sender} is not a valid Oracle"
         }
+
+        // Check that request with this id is not processed already
+        //
+        val requests = state.getMapping(String::class.java, "REQUESTS")
+        require(!requests.tryGet(requestId).isPresent) {
+            "Request $requestId already processed"
+        }
+        requests.put(requestId, "ACCEPTED")
 
         // Collect data points with the same data
         //

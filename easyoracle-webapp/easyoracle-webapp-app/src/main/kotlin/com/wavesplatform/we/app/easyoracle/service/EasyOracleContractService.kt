@@ -17,9 +17,9 @@ class EasyOracleContractService(
         return api.lastTxId
     }
 
-    fun accept(contractId: String, data: List<OracleData>): String {
+    fun accept(contractId: String, requestId: String, data: List<OracleData>): String {
         val api = factory.client { it.contractId(contractId) }
-        api.contract().accept(data)
+        api.contract().accept(requestId, data)
         return api.lastTxId
     }
 }
