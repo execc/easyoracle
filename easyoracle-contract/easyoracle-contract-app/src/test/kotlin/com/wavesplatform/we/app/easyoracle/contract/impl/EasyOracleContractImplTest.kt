@@ -201,11 +201,8 @@ class EasyOracleContractImplTest {
     }
 
     @Test
-    fun generateKeyPair() {
-        val ecSpec = ECGenParameterSpec("secp256k1")
-        val g = KeyPairGenerator.getInstance("EC")
-        g.initialize(ecSpec, SecureRandom())
-        val keypair = g.generateKeyPair()
+    fun testGenerateKeyPair() {
+        val keypair = generateKey()
         val publicKey = keypair.public
         val privateKey = keypair.private
 
