@@ -1,0 +1,22 @@
+version: '3.4'
+networks:
+   wavesenterprise-network:
+     driver: bridge
+services:
+  db-oracle:
+    image: postgres:11
+    restart: always
+    container_name: db-oracle
+    hostname: db-oracle
+    env_file: ./config/db-app/env
+    environment:
+      - POSTGRES_MULTIPLE_DATABASES=db_oracle_local,db_oracle_remote
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    volumes:
+      - ./config/db-app/scripts:/docker-entrypoint-initdb.d/
+      - ./data/db-app/pg:/var/lib/postgresql/data
+    networks:
+      - wavesenterprise-network

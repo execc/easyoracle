@@ -3,6 +3,7 @@ package com.wavesplatform.we.app.easyoracle.service
 import com.wavesplatform.we.app.easyoracle.contract.Oracle
 import com.wavesplatform.we.app.easyoracle.domain.OracleDefinition
 import com.wavesplatform.we.app.easyoracle.repositories.OracleDefinitionRepository
+import com.wavesplatform.we.app.easyoracle.repositories.OracleTaskRepository
 import org.springframework.stereotype.Service
 
 @Service
