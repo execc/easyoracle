@@ -16,6 +16,6 @@ class OracleEvaluationServiceTest {
                 dataTransformationScript = "$.dataseries[0].seeing"
         )
         val data = service.eval(def)
-        Assertions.assertNotNull(data.result)
+        Assertions.assertNotNull(data)
     }
 }

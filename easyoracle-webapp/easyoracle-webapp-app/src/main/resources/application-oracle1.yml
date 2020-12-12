@@ -1,0 +1,8 @@
+server:
+  port: 8081
+
+easyoracle-app:
+  sender: 3QVUnXdCq7vMJDjfcuM7G5qCqFKeBQuac8P
+  node-alias: node-0
+  public-key: MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAECSjyPMNqA5E8XnztmvdDhUboKQaq9wgUv8rWAgfFYR9Sh9UF5/ss4ClgJUCG1mKH8aTO/qZVnYyY8J2BOO4pAA==
+  private-key: MD4CAQAwEAYHKoZIzj0CAQYFK4EEAAoEJzAlAgEBBCCkZCJpVx02ZXUz94UVb9e5Wr/Mt4cPjjXhdzGkXZoyvA==

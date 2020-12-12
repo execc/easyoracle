@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails
 
 @Configuration
 class BeansConfig(
@@ -35,7 +36,7 @@ class BeansConfig(
     fun contractAuthentificate(nodeCredsKeys: NodeCredsKeysProperties): Supplier<ContractAuthenticate> {
         return Supplier {
             val auth = SecurityContextHolder.getContext().authentication
-            val builder = if (auth == null) {
+            val builder = if (auth == null || auth !is OAuth2AuthenticationDetails) {
                 ContractAuthenticate.builder()
                         .sender(techUserSender)
                         .password(
@@ -56,7 +57,7 @@ class BeansConfig(
     fun vstNodeApiSupplier(vstNodeApi: WeNodeApi): Supplier<WeNodeApi> {
         return Supplier {
             val auth = SecurityContextHolder.getContext().authentication
-            if (auth == null) {
+            if (auth == null || auth !is OAuth2AuthenticationDetails) {
                 vstNodeApi
             } else {
                 vstNodeClientWrapper.getWeClient(tokenSupport.currentUserPersonInfo.nodeAlias)

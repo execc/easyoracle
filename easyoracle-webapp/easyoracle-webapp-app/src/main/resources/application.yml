@@ -26,11 +26,11 @@ spring:
       minimum-idle: 2
       maximum-pool-size: 10
       idle-timeout: 30000
-      pool-name: easyoracle-app-jpa-pool
+      pool-name: EasyOracle-JPA-Pool
       max-lifetime: 100000
       connection-timeout: 30000
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://localhost:5432/db_easyoracle_app
+    url: jdbc:postgresql://178.154.233.23:5432/db_oracle_local
     username: postgres
     password: password
   flyway:
@@ -128,22 +128,6 @@ node:
       nodeOwnerPubKey: 35Nk2nVJZDwYZFdcd8cDZnFhSQUNnwmNMcC55beoJbzeyvqoUzfcsybnPN7grH4QwNJQAhiePeyeXSNPtWhTm9zw
       keyStorePassword: 9P90mwgUMc7VbnfH
 
-vst-oauth:
-  url: https://icore.weintegrator.com/api/v0/vst-oauth2
-
-vst-files:
-  url: https://icore.weintegrator.com/api/v0/vst-files
-
-vst-identity:
-  url: https://icore.weintegrator.com/api/v0/vst-identity
-
-sber-cnft:
-  url: http://37.18.119.185:5500
-
-sber-wallet:
-  url: http://37.18.119.185:5500
-  uuid: 902576449
-
 swagger:
   basePath: /
   basePackage: com.wavesplatform.we.app.easyoracle
@@ -152,6 +136,7 @@ swagger:
 logging:
   level:
     com.wavesplatform.vst.api: DEBUG
+    com.wavesplatform.vst.tx.observer.executor: ERROR
 
 tx-observer:
   scheduler:

@@ -224,8 +224,9 @@ class EasyOracleContractImplTest {
 
         Assertions.assertTrue(result)
 
-        print(pub)
-        print(prv)
+        println(pub)
+        println("")
+        println(prv)
     }
 
     fun loadPrivateKey(privateKey: String): ECPrivateKey {

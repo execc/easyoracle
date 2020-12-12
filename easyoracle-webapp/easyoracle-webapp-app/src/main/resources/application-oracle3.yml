@@ -1,0 +1,8 @@
+server:
+  port: 8083
+
+easyoracle-app:
+  sender: 3QZdm3KxwX4GRdrdGLxeZ4xmEyrv5rEXCqF
+  node-alias: node-2
+  public-key: MFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAETqsbijXCcXeX67luiVT00HbGtNpiv0OUV8xtDCOdvFtIN2/7Yo7y2B3Qhl1f0OhNi8VdlUjcM165BhzLMVPBrg==
+  private-key: MD4CAQAwEAYHKoZIzj0CAQYFK4EEAAoEJzAlAgEBBCDXXLCRF7rZP/e3PvuC31WKlgFPnD79qgJAjQVSeUWTFQ==

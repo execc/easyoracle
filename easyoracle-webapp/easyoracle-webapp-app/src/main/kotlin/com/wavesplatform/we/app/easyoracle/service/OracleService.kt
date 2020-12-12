@@ -9,12 +9,13 @@ import org.springframework.stereotype.Service
 @Service
 class OracleService(
         private val easyOracleContractService: EasyOracleContractService,
-        private val oracleDefinitionRepository: OracleDefinitionRepository
+        private val oracleDefinitionRepository: OracleDefinitionRepository,
+        private val oracleTaskRepository: OracleTaskRepository
 ) {
 
     fun createOracle(oracles: List<Oracle>, definition: OracleDefinition): OracleDefinition {
         val txId = easyOracleContractService.create(
-                definition.name,
+                definition.contractName,
                 oracles,
                 definition.signatures,
                 definition.windowSize
@@ -28,6 +29,7 @@ class OracleService(
     }
 
     fun delete(oracleId: String) {
+        oracleTaskRepository.deleteAll()
         oracleDefinitionRepository.deleteById(oracleId)
     }
 }

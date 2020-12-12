@@ -11,7 +11,7 @@ import javax.persistence.OneToMany
 data class OracleDefinition(
         @Id
         val id: String = UUID.randomUUID().toString(),
-        val name: String,
+        val contractName: String,
         @OneToMany(cascade = [ALL], fetch = EAGER)
         val dataSources: List<OracleDataSource>,
         val signatures: Int,

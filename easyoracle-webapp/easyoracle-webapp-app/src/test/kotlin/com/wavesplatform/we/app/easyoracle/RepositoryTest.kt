@@ -33,7 +33,8 @@ class RepositoryTest: AbstractIntegrationTest() {
                 signatures = 2,
                 windowSize = 1,
                 trigger = "some trigger",
-                contractId = ""
+                contractId = "",
+                contractName = "TEST"
         )
         oracleDefinitionRepository.saveAndFlush(definition)
 
@@ -47,7 +48,10 @@ class RepositoryTest: AbstractIntegrationTest() {
         )
         oracleTaskRepository.saveAndFlush(task)
 
-        val list = oracleTaskRepository.findByStatusAndDataPublicKey(IN_PROCESS, "MY_PUBLIC_KEY")
-        Assertions.assertTrue(list.size == 1)
+        val list = oracleTaskRepository.findByStatusAndDataPublicKeyNotOrDataPublicKeyIsNull(IN_PROCESS, "MY_PUBLIC_KEY")
+        Assertions.assertTrue(list.isEmpty())
+
+        val list2 = oracleTaskRepository.findByStatusAndDataPublicKeyNotOrDataPublicKeyIsNull(IN_PROCESS, "MY_PUBLIC_KEY2")
+        Assertions.assertTrue(list2.isNotEmpty())
     }
 }

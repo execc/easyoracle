@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface OracleTaskRepository: JpaRepository<OracleTask, String> {
 
-    fun findByStatusAndDataPublicKey(
+    fun findByStatusAndDataPublicKeyNotOrDataPublicKeyIsNull(
             status: OracleTaskStatus,
             publicKey: String
     ): List<OracleTask>
