@@ -1,13 +1,13 @@
 we-oauth2:
   additional:
     clientsDetails:
-      - clientId: api-wecnft-app
-        clientSecret: $2a$10$aUmlg4BxumTHis05iMhpf.j4wgrAOKtnCrMUiFnaZzYmA27HY3Zry # wecnft-app-secret
+      - clientId: api-easyoracle-app
+        clientSecret: $2a$10$aUmlg4BxumTHis05iMhpf.j4wgrAOKtnCrMUiFnaZzYmA27HY3Zry # easyoracle-app-secret
         resourceIds:
           - vst-oauth2
           - vst-identity
           - vst-files
-          - wecnft-app
+          - easyoracle-app
         scope:
           - read
           - vst-client
@@ -20,8 +20,8 @@ we-oauth2:
           - ROLE_TRUSTED_CLIENT
           - WE_IDENTITY_READ
 
-      - clientId: wecnft-app
-        clientSecret: $2a$10$3iiULmtayf6Xttykse1DpOi/Skp7B4PgqKsksz6THRLam0.peVXwi # wecnft-app-secret
+      - clientId: easyoracle-app
+        clientSecret: $2a$10$3iiULmtayf6Xttykse1DpOi/Skp7B4PgqKsksz6THRLam0.peVXwi # easyoracle-app-secret
         resourceIds:
           - vst-identity
           - vst-files

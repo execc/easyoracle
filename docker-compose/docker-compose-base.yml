@@ -10,7 +10,7 @@ services:
     hostname: db-app
     env_file: ./config/db-app/env
     environment:
-      - POSTGRES_MULTIPLE_DATABASES=db_oauth2,db_identity,db_files,db_wecnft_app
+      - POSTGRES_MULTIPLE_DATABASES=db_oauth2,db_identity,db_files,db_easyoracle_app
     expose:
       - 5432
     ports:

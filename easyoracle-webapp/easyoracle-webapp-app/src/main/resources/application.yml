@@ -1,0 +1,192 @@
+info:
+  name: "@project.name@"
+  version: "@project.version@"
+  description: "@project.description@"
+  parent: "@project.parent@"
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        event:
+          merge:
+            entity_copy_observer: allow
+        jdbc:
+          time_zone: UTC
+          log.warnings: true
+          lob.non_contextual_creation: true
+  application:
+    name: easyoracle-app
+  datasource:
+    hikari:
+      minimum-idle: 2
+      maximum-pool-size: 10
+      idle-timeout: 30000
+      pool-name: easyoracle-app-jpa-pool
+      max-lifetime: 100000
+      connection-timeout: 30000
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://localhost:5432/db_easyoracle_app
+    username: postgres
+    password: password
+  flyway:
+    enabled: true
+
+management:
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      percentiles:
+        http.server.requests: 0.5, 0.75, 0.95
+      percentiles-histogram:
+        http.server.requests: true
+      sla:
+        http.server.requests: 10ms, 100ms, 150ms, 250ms, 500ms, 1s
+  health:
+    rabbit:
+      enabled: false
+  info:
+    git:
+      enabled: true
+      mode: full
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+security:
+  oauth2:
+    resource:
+      id: easyoracle-app
+      jwt:
+        key-value: -----BEGIN PUBLIC KEY-----
+          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAh+sA8O8616X/nYByQ2xu
+          hhFHmec3k6urgNOphfxmZ/JQ6ySdD8hnVAqUHpKwUJkd1Nad2zKp0j4DFLw6UZTz
+          yXo4vdPo7Ibn3h8qPqmL7DDciWuVhJ6r1Gxajn+VohqAeLIOkIALzgN2yBjGQYws
+          mjrZUmk5N7A4DuHd/PksoYjRMCoISfKfjtmx9LfCHOvqivEaCCEXcEv8vMpcnPd+
+          yqQ8cUb6ya5CKdSzO82ZivIzeiJ5pvuHAmh1KsWYoqpJ82zHrdwaTElWeiN1hMv2
+          wHykww+DMm/E04oeIhDoEnyyS7wvqsOC8tJo9nMnNoc93INfeICEojEi3RX2Mtwb
+          PQIDAQAB
+          -----END PUBLIC KEY-----
+    client:
+      id: vst-bb-rn
+      client-id: vst-bb-rn
+      client-secret: secret
+      access-token-uri: ${vst-oauth.url}/oauth/token
+      resource-ids: vst-identity,vst-files
+      grant-type: client_credentials
+
+feign:
+  retryer:
+    maxAttempts: 5
+    period: 60000
+    maxPeriod: 900000
+  client:
+    config:
+      vst-identity:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
+      vst-files:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
+
+easyoracle-app:
+  sender: 3HgjVZvBHNaVfU7fHx9mqDXeJy4J8khadRC
+  node-alias: node-0
+  fee: 0
+  contract:
+    id: abc
+    image: registry.wavesenterprise.com/image-sc/easyoracle-contract-app
+    imageHash:
+
+node:
+  config:
+    node-0:
+      url: https://icore.weintegrator.com/node-0
+      xApiKey: svupkey
+      nodeOwnerAddress: 3HgjVZvBHNaVfU7fHx9mqDXeJy4J8khadRC
+      nodeOwnerPubKey: JFm1tUiPCygaaoirf8DSM31y2aB3LkJsRC3TTAmPdHX2L7FFRsskDThhjzpSNs4uTg3FWkVcUKYCiRv5djTNyfn
+      keyStorePassword:
+    node-1:
+      url: https://icore.weintegrator.com/node-1
+      xApiKey: svupkey
+      nodeOwnerAddress: 3HjAAEnZYYMKHf1Z1w6sgLSw48qtbxKafVy
+      nodeOwnerPubKey: 4sdv9RJPu8dBd4fDQAAdFJNNtveNQXa4kB4Ngafai8LsRAQBieuSNXW7SudnUXPqNqDQ1TB12PXvTzZCMLSJ7Mff
+      keyStorePassword:
+    node-2:
+      url: https://icore.weintegrator.com/node-2
+      xApiKey: svupkey
+      nodeOwnerAddress: 3HUtx1GqP4tpsz98Nexztaz5hkbSgZTA21v
+      nodeOwnerPubKey: 4eUvUPXvhbQaLTgzdBadWm2U3B4EAZxyHqoQf35Yjz1PLcL8d1vDBSj64ZnBXtLkJMiz6QpHtggashAq6jJJMDn6
+      keyStorePassword:
+
+vst-oauth:
+  url: https://icore.weintegrator.com/api/v0/vst-oauth2
+
+vst-files:
+  url: https://icore.weintegrator.com/api/v0/vst-files
+
+vst-identity:
+  url: https://icore.weintegrator.com/api/v0/vst-identity
+
+sber-cnft:
+  url: http://37.18.119.185:5500
+
+sber-wallet:
+  url: http://37.18.119.185:5500
+  uuid: 902576449
+
+swagger:
+  basePath: /
+  basePackage: com.wavesplatform.we.app.easyoracle
+  oauth-url: ${vst-oauth.url}/oauth/token
+
+logging:
+  level:
+    com.wavesplatform.vst.api: DEBUG
+
+tx-observer:
+  scheduler:
+    pool-size: 4
+  queue-cleaner:
+    cleanCronExpression: 0 0/5 * * * ?
+    archive-height-window: 50
+  partition-poller:
+    fixedDelayString: 1000
+    limit: 30
+  tx-poller:
+    size: 100
+  fork-resolver:
+    fixedDelayString: 5000
+    height-offset: 20
+    window: 5
+  liquid-block-polling-delay: 500
+  queue-mode: JPA
+  fixedDelayString: 2000
+  block-height-window: 50
+  nodeAlias: node-0
+  syncHistory: false
+  predicate:
+    txTypes:
+      - 103
+      - 104
+      - 105
+      - 113
+      - 114
+
+scheduler:
+  delayEnd:
+    initialDelay: 4000
+    fixedDelay: 600000
+  txStatus:
+    failedMinersThreshold: 3
+    txTimeoutMinutes: 5
+    pendingTxPollDelayMs: 2000
