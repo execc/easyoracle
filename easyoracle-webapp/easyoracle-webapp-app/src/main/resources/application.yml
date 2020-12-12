@@ -128,6 +128,9 @@ node:
       nodeOwnerPubKey: 35Nk2nVJZDwYZFdcd8cDZnFhSQUNnwmNMcC55beoJbzeyvqoUzfcsybnPN7grH4QwNJQAhiePeyeXSNPtWhTm9zw
       keyStorePassword: 9P90mwgUMc7VbnfH
 
+vst-oauth:
+  url:
+
 swagger:
   basePath: /
   basePackage: com.wavesplatform.we.app.easyoracle
