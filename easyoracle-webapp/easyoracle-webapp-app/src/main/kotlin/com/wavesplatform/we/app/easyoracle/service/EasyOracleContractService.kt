@@ -5,7 +5,6 @@ import com.wavesplatform.we.app.easyoracle.contract.EasyOracleContract
 import com.wavesplatform.we.app.easyoracle.contract.Oracle
 import com.wavesplatform.we.app.easyoracle.contract.OracleData
 import org.springframework.stereotype.Service
-import java.util.UUID
 
 @Service
 class EasyOracleContractService(

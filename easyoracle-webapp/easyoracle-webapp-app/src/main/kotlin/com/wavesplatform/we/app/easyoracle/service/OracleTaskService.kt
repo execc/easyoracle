@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class OracleTaskService(
-        private val oracleTaskRepository: OracleTaskRepository
+    private val oracleTaskRepository: OracleTaskRepository
 ) {
 
     private val log = LoggerFactory.getLogger(OracleTaskService::class.java)

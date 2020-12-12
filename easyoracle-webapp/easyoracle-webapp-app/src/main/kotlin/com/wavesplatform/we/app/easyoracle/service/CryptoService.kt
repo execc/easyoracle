@@ -2,9 +2,6 @@ package com.wavesplatform.we.app.easyoracle.service
 
 import com.wavesplatform.we.app.easyoracle.contract.impl.KEY_ECDSA
 import com.wavesplatform.we.app.easyoracle.contract.impl.SIG_ECDSA
-import org.bouncycastle.jce.provider.BouncyCastleProvider
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.stereotype.Service
 import java.security.KeyFactory
 import java.security.NoSuchAlgorithmException
 import java.security.PrivateKey
@@ -13,11 +10,14 @@ import java.security.interfaces.ECPrivateKey
 import java.security.spec.InvalidKeySpecException
 import java.security.spec.PKCS8EncodedKeySpec
 import java.util.Base64
+import org.bouncycastle.jce.provider.BouncyCastleProvider
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Service
 
 @Service
 class CryptoService(
-        @Value("\${easyoracle-app.private-key}")
-        private val privateKey: String
+    @Value("\${easyoracle-app.private-key}")
+    private val privateKey: String
 ) {
 
     fun loadPrivateKey(): ECPrivateKey {

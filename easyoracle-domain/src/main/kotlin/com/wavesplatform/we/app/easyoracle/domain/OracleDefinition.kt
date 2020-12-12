@@ -9,13 +9,13 @@ import javax.persistence.OneToMany
 
 @Entity
 data class OracleDefinition(
-        @Id
-        val id: String = UUID.randomUUID().toString(),
-        val contractName: String,
-        @OneToMany(cascade = [ALL], fetch = EAGER)
-        val dataSources: List<OracleDataSource>,
-        val signatures: Int,
-        val windowSize: Int,
-        val trigger: String,
-        val contractId: String = ""
+    @Id
+    val id: String = UUID.randomUUID().toString(),
+    val contractName: String,
+    @OneToMany(cascade = [ALL], fetch = EAGER)
+    val dataSources: List<OracleDataSource>,
+    val signatures: Int,
+    val windowSize: Int,
+    val trigger: String,
+    val contractId: String = ""
 )

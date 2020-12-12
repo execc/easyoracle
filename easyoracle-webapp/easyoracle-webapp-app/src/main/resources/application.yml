@@ -103,9 +103,8 @@ easyoracle-app:
   node-alias: node-0
   fee: 0
   contract:
-    id: abc
-    image:  akafakir/easyoracle-contract-app:1.0.0-SNAPSHOT-20201212143027-03afbd4.dirty
-    imageHash: cd47ceaf0919c26dad9d871be133ca2c9e272799df23215db9845e24c42b6f71
+    image: akafakir/easyoracle-contract-app:1.0.0-SNAPSHOT-20201212223059-0a9349d.dirty
+    imageHash: 4b82c6f3382d9640fe77aacb6fc76a5e27dcf4751fa33d593aea496d2b17a8e3
 
 node:
   config:

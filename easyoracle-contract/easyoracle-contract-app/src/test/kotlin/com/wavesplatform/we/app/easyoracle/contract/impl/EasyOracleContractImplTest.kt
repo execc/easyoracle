@@ -6,22 +6,22 @@ import com.wavesplatform.vst.contract.state.InMemoryContractState
 import com.wavesplatform.vst.contract.utils.JsonUtils
 import com.wavesplatform.we.app.easyoracle.contract.Oracle
 import com.wavesplatform.we.app.easyoracle.contract.OracleData
+import java.security.KeyFactory
 import java.security.KeyPair
 import java.security.KeyPairGenerator
+import java.security.NoSuchAlgorithmException
+import java.security.PrivateKey
 import java.security.SecureRandom
 import java.security.Security
+import java.security.Signature
+import java.security.interfaces.ECPrivateKey
 import java.security.spec.ECGenParameterSpec
+import java.security.spec.InvalidKeySpecException
+import java.security.spec.PKCS8EncodedKeySpec
 import java.util.Base64
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import java.security.KeyFactory
-import java.security.NoSuchAlgorithmException
-import java.security.PrivateKey
-import java.security.Signature
-import java.security.interfaces.ECPrivateKey
-import java.security.spec.InvalidKeySpecException
-import java.security.spec.PKCS8EncodedKeySpec
 
 class EasyOracleContractImplTest {
 
@@ -31,7 +31,7 @@ class EasyOracleContractImplTest {
 
     @Test
     fun testAllSignaturesValid2OutOf3() {
-        val state = InMemoryContractState("", mapOf())
+        val state = InMemoryContractState("", mutableMapOf())
         var contract = EasyOracleContractImpl(state, mockTx("ORACLE1", 103))
 
         // Create 3 different oracles
@@ -85,7 +85,7 @@ class EasyOracleContractImplTest {
 
     @Test
     fun testInvalidSignatures2OutOf3() {
-        val state = InMemoryContractState("", mapOf())
+        val state = InMemoryContractState("", mutableMapOf())
         var contract = EasyOracleContractImpl(state, mockTx("ORACLE1", 103))
 
         // Create 3 different oracles
@@ -141,7 +141,7 @@ class EasyOracleContractImplTest {
 
     @Test
     fun testAllSignaturesValidButOnly1Point() {
-        val state = InMemoryContractState("", mapOf())
+        val state = InMemoryContractState("", mutableMapOf())
         var contract = EasyOracleContractImpl(state, mockTx("ORACLE1", 103))
 
         // Create 3 different oracles
@@ -213,7 +213,7 @@ class EasyOracleContractImplTest {
 
         val data = "ABC"
 
-        val state = InMemoryContractState("", mapOf())
+        val state = InMemoryContractState("", mutableMapOf())
         val contract = EasyOracleContractImpl(state, mockTx("", 103))
 
         val pub = Base64.getEncoder().encodeToString(publicKey.encoded)
@@ -243,7 +243,6 @@ class EasyOracleContractImplTest {
         } as ECPrivateKey
     }
 
-
     fun sign(privateKey: PrivateKey, data: String): String {
         val ecdsaSign = Signature.getInstance(SIG_ECDSA, BouncyCastleProvider())
         ecdsaSign.initSign(privateKey)
@@ -251,5 +250,4 @@ class EasyOracleContractImplTest {
         val signature = ecdsaSign.sign()
         return Base64.getEncoder().encodeToString(signature)
     }
-
 }

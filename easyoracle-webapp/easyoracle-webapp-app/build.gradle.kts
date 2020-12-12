@@ -60,6 +60,7 @@ dependencies {
     implementation("com.wavesplatform.we:we-boot-starter:$weBootStarterVersion")
 
     implementation("com.jayway.jsonpath:json-path:2.5.0")
+    implementation("org.jsoup:jsoup:1.13.1")
 
     implementation(project(":easyoracle-contract:easyoracle-contract-app"))
 

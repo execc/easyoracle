@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class OracleService(
-        private val easyOracleContractService: EasyOracleContractService,
-        private val oracleDefinitionRepository: OracleDefinitionRepository,
-        private val oracleTaskRepository: OracleTaskRepository
+    private val easyOracleContractService: EasyOracleContractService,
+    private val oracleDefinitionRepository: OracleDefinitionRepository,
+    private val oracleTaskRepository: OracleTaskRepository
 ) {
 
     fun createOracle(oracles: List<Oracle>, definition: OracleDefinition): OracleDefinition {

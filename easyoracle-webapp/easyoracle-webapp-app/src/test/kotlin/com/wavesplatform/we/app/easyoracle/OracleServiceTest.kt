@@ -3,11 +3,11 @@ package com.wavesplatform.we.app.easyoracle
 import com.wavesplatform.we.app.easyoracle.contract.Oracle
 import com.wavesplatform.we.app.easyoracle.domain.OracleDefinition
 import com.wavesplatform.we.app.easyoracle.service.OracleService
+import java.util.UUID
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import java.util.UUID
 
-class OracleServiceTest: AbstractIntegrationTest() {
+class OracleServiceTest : AbstractIntegrationTest() {
 
     @Autowired
     lateinit var oracleService: OracleService

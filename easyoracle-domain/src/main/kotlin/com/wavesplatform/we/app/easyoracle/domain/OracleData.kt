@@ -6,9 +6,9 @@ import javax.persistence.Id
 
 @Entity
 data class OracleData(
-        @Id
-        val id: String = UUID.randomUUID().toString(),
-        val result: String, // JSON Node as String
-        val publicKey: String,
-        val signature: String
+    @Id
+    val id: String = UUID.randomUUID().toString(),
+    val result: String, // JSON Node as String
+    val publicKey: String,
+    val signature: String
 )

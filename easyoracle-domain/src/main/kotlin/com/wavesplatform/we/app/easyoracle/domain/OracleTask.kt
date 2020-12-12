@@ -14,16 +14,16 @@ import javax.persistence.Version
 
 @Entity
 data class OracleTask(
-        @Id
-        val id: String = UUID.randomUUID().toString(),
-        @Version
-        val version: Int = 1,
-        @ManyToOne
-        val definition: OracleDefinition,
-        @Enumerated(STRING)
-        val status: OracleTaskStatus = IN_PROCESS,
-        @OneToMany(cascade = [ALL], fetch = EAGER)
-        val data: Set<OracleData>
+    @Id
+    val id: String = UUID.randomUUID().toString(),
+    @Version
+    val version: Int = 1,
+    @ManyToOne
+    val definition: OracleDefinition,
+    @Enumerated(STRING)
+    val status: OracleTaskStatus = IN_PROCESS,
+    @OneToMany(cascade = [ALL], fetch = EAGER)
+    val data: Set<OracleData>
 )
 
 enum class OracleTaskStatus {
@@ -31,4 +31,3 @@ enum class OracleTaskStatus {
         COMPLETED,
         EXPIRED
 }
-

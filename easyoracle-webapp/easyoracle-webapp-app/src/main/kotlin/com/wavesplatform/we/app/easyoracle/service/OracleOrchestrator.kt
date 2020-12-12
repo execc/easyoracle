@@ -8,31 +8,28 @@ import com.wavesplatform.we.app.easyoracle.domain.OracleTaskStatus.COMPLETED
 import com.wavesplatform.we.app.easyoracle.domain.OracleTaskStatus.IN_PROCESS
 import com.wavesplatform.we.app.easyoracle.repositories.OracleDefinitionRepository
 import com.wavesplatform.we.app.easyoracle.repositories.OracleTaskRepository
+import java.util.concurrent.Executors
+import java.util.concurrent.ScheduledFuture
+import javax.annotation.PostConstruct
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.scheduling.TaskScheduler
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.scheduling.support.CronTrigger
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.Executors
-import java.util.concurrent.ScheduledExecutorService
-import java.util.concurrent.ScheduledFuture
-import javax.annotation.PostConstruct
 
 @Service
 class OracleOrchestrator(
-        private val easyOracleContractService: EasyOracleContractService,
-        private val oracleEvaluationService: OracleEvaluationService,
-        private val oracleTaskRepository: OracleTaskRepository,
-        private val oracleDefinitionRepository: OracleDefinitionRepository,
-        private val oracleTaskService: OracleTaskService,
-        private val taskExecutor: TaskScheduler,
-        private val cryptoService: CryptoService,
-        private val objectMapper: ObjectMapper,
-        @Value("\${easyoracle-app.public-key}")
-        private val publicKey: String
+    private val easyOracleContractService: EasyOracleContractService,
+    private val oracleEvaluationService: OracleEvaluationService,
+    private val oracleTaskRepository: OracleTaskRepository,
+    private val oracleDefinitionRepository: OracleDefinitionRepository,
+    private val oracleTaskService: OracleTaskService,
+    private val taskExecutor: TaskScheduler,
+    private val cryptoService: CryptoService,
+    private val objectMapper: ObjectMapper,
+    @Value("\${easyoracle-app.public-key}")
+    private val publicKey: String
 ) {
 
     private val log = LoggerFactory.getLogger(OracleOrchestrator::class.java)

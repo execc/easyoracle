@@ -11,8 +11,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 
-
-class RepositoryTest: AbstractIntegrationTest() {
+class RepositoryTest : AbstractIntegrationTest() {
 
     @Autowired
     lateinit var oracleDefinitionRepository: OracleDefinitionRepository
@@ -40,7 +39,7 @@ class RepositoryTest: AbstractIntegrationTest() {
 
         val task = OracleTask(
             definition = definition,
-            data =  setOf(OracleData(
+            data = setOf(OracleData(
                     result = "",
                     publicKey = "MY_PUBLIC_KEY",
                     signature = ""
