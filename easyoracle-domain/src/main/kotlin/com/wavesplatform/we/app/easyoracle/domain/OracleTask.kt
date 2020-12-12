@@ -28,6 +28,7 @@ data class OracleTask(
 
 enum class OracleTaskStatus {
         IN_PROCESS,
-        COMPLETED
+        COMPLETED,
+        EXPIRED
 }
 

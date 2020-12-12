@@ -10,4 +10,5 @@ dependencies {
     api(project(":easyoracle-domain"))
     implementation("com.wavesplatform.vst:vst-identity-api:$vstIdentityApiVersion")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation(project(":easyoracle-contract:easyoracle-contract-api"))
 }

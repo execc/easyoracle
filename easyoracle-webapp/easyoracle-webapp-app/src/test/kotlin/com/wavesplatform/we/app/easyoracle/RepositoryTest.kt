@@ -1,6 +1,7 @@
 package com.wavesplatform.we.app.easyoracle
 
 import com.wavesplatform.we.app.easyoracle.domain.OracleData
+import com.wavesplatform.we.app.easyoracle.domain.OracleDataSource
 import com.wavesplatform.we.app.easyoracle.domain.OracleDefinition
 import com.wavesplatform.we.app.easyoracle.domain.OracleTask
 import com.wavesplatform.we.app.easyoracle.domain.OracleTaskStatus.IN_PROCESS
@@ -22,9 +23,13 @@ class RepositoryTest: AbstractIntegrationTest() {
     @Test
     fun testReadsAndWrites() {
         val definition = OracleDefinition(
-                dataSourceType = "url",
-                dataSourceExpression = "some exprt",
-                dataTransformationScript = "some script",
+                dataSources = listOf(
+                        OracleDataSource(
+                                dataSourceType = "url",
+                                dataSourceExpression = "some exprt",
+                                dataTransformationScript = "some script"
+                        )
+                ),
                 signatures = 2,
                 windowSize = 1,
                 trigger = "some trigger",

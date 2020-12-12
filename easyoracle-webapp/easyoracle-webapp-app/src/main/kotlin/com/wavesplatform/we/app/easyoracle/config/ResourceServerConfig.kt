@@ -59,6 +59,7 @@ class ResourceServerConfig(
                 "/actuator/**",
                 "/api-docs/**",
                 "/oauth/*",
+                "/api/*",
                 "/v2/api-docs/**",
                 "/webjars/**",
                 "/swagger-resources/**",

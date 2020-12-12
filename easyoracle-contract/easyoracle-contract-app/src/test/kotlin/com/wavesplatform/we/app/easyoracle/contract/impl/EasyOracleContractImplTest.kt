@@ -15,6 +15,11 @@ import java.util.Base64
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import java.security.KeyFactory
+import java.security.NoSuchAlgorithmException
+import java.security.interfaces.ECPrivateKey
+import java.security.spec.InvalidKeySpecException
+import java.security.spec.PKCS8EncodedKeySpec
 
 class EasyOracleContractImplTest {
 
@@ -215,9 +220,24 @@ class EasyOracleContractImplTest {
         val sig = contract.sign(privateKey, data)
         val result = contract.verify(sig, data, pub)
 
+        loadPrivateKey(prv)
+
         Assertions.assertTrue(result)
 
         print(pub)
         print(prv)
     }
+
+    fun loadPrivateKey(privateKey: String): ECPrivateKey {
+        val privateKeySpec = PKCS8EncodedKeySpec(Base64.getDecoder().decode(privateKey))
+        return try {
+            val keyFactory = KeyFactory.getInstance(KEY_ECDSA, BouncyCastleProvider())
+            keyFactory.generatePrivate(privateKeySpec)
+        } catch (e: NoSuchAlgorithmException) {
+            throw IllegalStateException("NoSuchAlgorithm", e)
+        } catch (e: InvalidKeySpecException) {
+            throw IllegalStateException("InvalidKeySpec", e)
+        } as ECPrivateKey
+    }
+
 }

@@ -1,10 +1,9 @@
 package com.wavesplatform.we.app.easyoracle.service
 
 import com.jayway.jsonpath.JsonPath
-import com.wavesplatform.we.app.easyoracle.domain.OracleData
+import com.wavesplatform.we.app.easyoracle.domain.OracleDataSource
 import com.wavesplatform.we.app.easyoracle.domain.OracleDefinition
 import org.codehaus.jackson.map.ObjectMapper
-import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.RequestEntity
 import org.springframework.http.ResponseEntity
@@ -14,12 +13,17 @@ import org.springframework.web.client.exchange
 import java.lang.IllegalArgumentException
 import java.lang.IllegalStateException
 import java.net.URI
-import kotlin.math.exp
 
 @Service
-class OracleEvaluationService() {
+class OracleEvaluationService {
 
-    fun eval(definition: OracleDefinition): OracleData {
+    fun evalAll(definition: OracleDefinition): List<String> {
+        return definition.dataSources.map {
+            eval(it)
+        }
+    }
+
+    fun eval(definition: OracleDataSource): String {
         val data = if (definition.dataSourceType == "url") {
             val jsonStr = evalUrl(definition.dataSourceExpression)
             val jsonPath = if (definition.dataTransformationScript.isNotBlank()) {
@@ -31,12 +35,7 @@ class OracleEvaluationService() {
             throw IllegalArgumentException("Illegal definition type")
         }
 
-        val resultNormalized = ObjectMapper().writeValueAsString(data)
-        return OracleData(
-                result = resultNormalized,
-                publicKey = "",
-                signature = ""
-        )
+        return ObjectMapper().writeValueAsString(data)
     }
 
     private fun evalUrl(expression: String): String {
