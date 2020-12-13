@@ -74,10 +74,21 @@ function App() {
     await fetch(`/api/oracles/${id}`, {
       method: 'DELETE'
     })
-    
+
     const result = await fetch('/api/oracles').then(res => res.json())
     result.reverse()
     setOracles(result)
+  }
+
+  const testDataSource = async (dataSource) => {
+    const text = await fetch('/api/datasource/test', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(dataSource)
+    }).then(res => res.text())
+    return text
   }
 
   const toggleCreateVisible = () => {
@@ -102,16 +113,16 @@ function App() {
             <Button color="primary" variant="contained" onClick={toggleCreateVisible}><Icon>add_task</Icon>Создать</Button>
           </Box>
           {createVisible ? <Box my={1}>
-            <NewOracleCard confirm={confirm} />
+            <NewOracleCard confirm={confirm} testDataSource={testDataSource} />
           </Box> : ''}
         </div>
-        { createLoaderVisible && <div style={{'textAlign': 'center'}}>
-          <CircularProgress/>
-        </div> }
+        {createLoaderVisible && <div style={{ 'textAlign': 'center' }}>
+          <CircularProgress />
+        </div>}
         <Box my={1}>
           {oracles.map((oracle, index) =>
             <Box key={index} my={1}>
-              <OracleCard oracle={oracle} deleteOracle={deleteOracle}/>
+              <OracleCard oracle={oracle} deleteOracle={deleteOracle} />
             </Box>
           )}
         </Box>

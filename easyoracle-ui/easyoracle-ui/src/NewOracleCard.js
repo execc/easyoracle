@@ -8,6 +8,11 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import Typography from '@material-ui/core/Typography';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const useStyles = makeStyles({
     root: {
@@ -59,7 +64,8 @@ const timeOptions = [
 export default function NewOracleCard(props) {
     const classes = useStyles();
     const {
-        confirm
+        confirm,
+        testDataSource
     } = props
 
     const [dataSources, setDateSources] = useState([{
@@ -69,6 +75,15 @@ export default function NewOracleCard(props) {
     const [name, setName] = useState()
     const [signatures, setSignatures] = useState(2)
     const [trigger, setTrigger] = useState(timeOptions[0].value)
+
+    const [testResult, setTestResult] = useState()
+    const [testDialogOpen, setTestDialogOpen] = useState(false)
+
+    const doTestDataSource = async (ds) => {
+        const result = await testDataSource(ds)
+        setTestResult(result)
+        setTestDialogOpen(true)
+    }
 
     const doConfirm = () => {
         confirm({
@@ -107,23 +122,41 @@ export default function NewOracleCard(props) {
     const validate = () => {
         return name && dataSources.filter(ds => !validateDs(ds)) == 0
     }
-    
+
 
     return (
         <Card className={classes.root}>
+            <Dialog
+                open={testDialogOpen}
+                onClose={() => setTestDialogOpen(false)}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">Тестирование источника данных</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        {testResult}
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setTestDialogOpen(false)} color="primary" autoFocus>
+                        Закрыть
+                     </Button>
+                </DialogActions>
+            </Dialog>
             <CardContent>
                 <form style={{}} noValidate autoComplete="off" style={{ textAlign: 'left' }}>
                     <div>
                         <TextField
-                            required 
-                            value={name} 
-                            fullWidth 
-                            label="Наименование оракула" 
-                            onChange={(e) => setName(e.target.value)}/>
+                            required
+                            value={name}
+                            fullWidth
+                            label="Наименование оракула"
+                            onChange={(e) => setName(e.target.value)} />
                     </div>
                     {
                         dataSources.map((dataSource, index) => <div key={index}>
-                            <Typography variant="h6" component="h2" style={{'marginTop': 10}} gutterBottom>
+                            <Typography variant="h6" component="h2" style={{ 'marginTop': 10 }} gutterBottom>
                                 Источник данных {index + 1}
                                 {
                                     index > 0 ? (<Button onClick={() => doDeleteDataSource(index)}><Icon>delete</Icon></Button>) : ''
@@ -145,37 +178,42 @@ export default function NewOracleCard(props) {
                                         </MenuItem>
                                     ))}
                                 </TextField>
-                                <TextField 
-                                    fullWidth 
+                                <TextField
+                                    fullWidth
                                     required
-                                    label={dataSourceLabels[dataSource.dataSourceType].dataSourceExpression} 
+                                    label={dataSourceLabels[dataSource.dataSourceType].dataSourceExpression}
                                     value={dataSource.dataSourceExpression}
                                     onChange={(e) => setDataSourceAttribute(index, 'dataSourceExpression', e.target.value)}
-                                    />
-                                <TextField 
-                                    fullWidth 
+                                />
+                                <TextField
+                                    fullWidth
                                     required
                                     label={dataSourceLabels[dataSource.dataSourceType].dataTransformationScript}
                                     value={dataSource.dataTransformationScript}
                                     onChange={(e) => setDataSourceAttribute(index, 'dataTransformationScript', e.target.value)}
-                                    />
+                                />
+                                <div>
+                                    <Button
+                                        disabled={!validateDs(dataSources[index])}
+                                        style={{ 'marginTop': 5 }}
+                                        variant="outlined"
+                                        color="default"
+                                        size="small"
+                                        onClick={() => doTestDataSource(dataSources[index])}>
+                                            Протестировать
+                                    </Button>
+                                </div>
                             </div>
                         </div>)
                     }
-                    <div style={{marginTop: 5}}>
-                        <Button 
-                            variant="outlined" 
-                            color="primary" 
-                            size="small" 
+                    <div style={{ marginTop: 5 }}>
+                        <Button
+                            variant="outlined"
+                            color="primary"
+                            size="small"
                             onClick={doAddDataSource}>Добавить источник</Button>
-                        <Button 
-                            style={{'marginLeft': 5}}
-                            variant="outlined" 
-                            color="secondary" 
-                            size="small" 
-                            onClick={doAddDataSource}>Протестировать</Button>
                     </div>
-                    <Typography variant="h6" component="h2" style={{'marginTop': 10}} gutterBottom>
+                    <Typography variant="h6" component="h2" style={{ 'marginTop': 10 }} gutterBottom>
                         Консенсус
                     </Typography>
                     <div>
@@ -195,47 +233,47 @@ export default function NewOracleCard(props) {
                             ))}
                         </TextField>
                     </div>
-                    <Typography variant="h6" component="h2" style={{'marginTop': 10}} gutterBottom>
+                    <Typography variant="h6" component="h2" style={{ 'marginTop': 10 }} gutterBottom>
                         Тип события
                     </Typography>
                     <TextField
-                            fullWidth
-                            required
-                            select
-                            label="Тип события"
-                            value={'time'}
-                            helperText="Выберите тип события по которому будет срабатывать оракул"
-                        >
-                            {Object.keys(triggers).map((key) => (
-                                <MenuItem key={key} value={key}>
-                                    {triggers[key].label}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                        <TextField
-                            fullWidth
-                            required
-                            select
-                            label="Частота"
-                            value={trigger}
-                            onChange={(e) => setTrigger(e.target.value)}
-                            helperText="Выберите частоту срабатывания"
-                        >
-                            {timeOptions.map((option) => (
-                                <MenuItem key={option.value} value={option.value}>
-                                    {option.label}
-                                </MenuItem>
-                            ))}
-                        </TextField>
+                        fullWidth
+                        required
+                        select
+                        label="Тип события"
+                        value={'time'}
+                        helperText="Выберите тип события по которому будет срабатывать оракул"
+                    >
+                        {Object.keys(triggers).map((key) => (
+                            <MenuItem key={key} value={key}>
+                                {triggers[key].label}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+                    <TextField
+                        fullWidth
+                        required
+                        select
+                        label="Частота"
+                        value={trigger}
+                        onChange={(e) => setTrigger(e.target.value)}
+                        helperText="Выберите частоту срабатывания"
+                    >
+                        {timeOptions.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                                {option.label}
+                            </MenuItem>
+                        ))}
+                    </TextField>
                 </form>
             </CardContent>
 
             <CardActions>
-                <Button 
+                <Button
                     disabled={!validate()}
-                    variant="outlined" 
-                    color="primary" 
-                    size="small" 
+                    variant="outlined"
+                    color="primary"
+                    size="small"
                     onClick={doConfirm}>Подтвердить</Button>
             </CardActions>
         </Card>
