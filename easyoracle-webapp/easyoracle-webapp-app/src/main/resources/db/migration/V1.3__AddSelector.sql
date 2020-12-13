@@ -1,0 +1,2 @@
+create table oracle_data_source_selector (oracle_data_source_id varchar(255) not null, selector varchar(255));
+alter table if exists oracle_data_source_selector add constraint FKbhi4e5n3dfxa0978ckecvnlxt foreign key (oracle_data_source_id) references oracle_data_source;

@@ -18,7 +18,7 @@ data class OracleTask(
     val id: String = UUID.randomUUID().toString(),
     @Version
     val version: Int = 1,
-    @ManyToOne
+    @ManyToOne(fetch = EAGER)
     val definition: OracleDefinition,
     @Enumerated(STRING)
     val status: OracleTaskStatus = IN_PROCESS,

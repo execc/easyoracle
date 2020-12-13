@@ -4,7 +4,10 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
+import Chip from '@material-ui/core/Chip';
 import Typography from '@material-ui/core/Typography';
+
+import { dataSourceLabels, knownOracles } from './common'
 
 const useStyles = makeStyles({
     root: {
@@ -22,19 +25,6 @@ const useStyles = makeStyles({
         marginBottom: 12,
     },
 });
-
-const dataSourceLabels = {
-    'html': {
-        'dataSourceExpression': 'Адрес страницы',
-        'dataTransformationScript': 'Элемент страницы',
-        'dataSourceType': 'HTML Страница'
-    },
-    'url': {
-        'dataSourceExpression': 'Адрес API',
-        'dataTransformationScript': 'Элемент API',
-        'dataSourceType': 'REST API'
-    }
-}
 
 export default function OracleCard(props) {
     const classes = useStyles();
@@ -55,6 +45,11 @@ export default function OracleCard(props) {
                     oracle.dataSources.map((source, index) => <div key={index}>
                     <Typography variant="h6" component="h2" gutterBottom>
                         Источник данных {index + 1}
+                    </Typography>
+                    <Typography className={classes.pos}>
+                        <strong>Исполнители:</strong> {
+                            knownOracles.map(oracle => <Chip style={{marginLeft: 5}} size="small" label={oracle.address} />)
+                        }
                     </Typography>
                     <Typography className={classes.pos}>
                         <strong>Тип источника данных из внешнего контура:</strong> {dataSourceLabels[source.dataSourceType].dataSourceType}

@@ -26,7 +26,8 @@ class RepositoryTest : AbstractIntegrationTest() {
                         OracleDataSource(
                                 dataSourceType = "url",
                                 dataSourceExpression = "some exprt",
-                                dataTransformationScript = "some script"
+                                dataTransformationScript = "some script",
+                                selector = setOf("MY_PUBLIC_KEY", "MY_PUBLIC_KEY2")
                         )
                 ),
                 signatures = 2,
@@ -47,10 +48,13 @@ class RepositoryTest : AbstractIntegrationTest() {
         )
         oracleTaskRepository.saveAndFlush(task)
 
-        val list = oracleTaskRepository.findByStatusAndDataPublicKeyNotOrDataPublicKeyIsNull(IN_PROCESS, "MY_PUBLIC_KEY")
+        val list = oracleTaskRepository.findMyTasks(IN_PROCESS, "MY_PUBLIC_KEY")
         Assertions.assertTrue(list.isEmpty())
 
-        val list2 = oracleTaskRepository.findByStatusAndDataPublicKeyNotOrDataPublicKeyIsNull(IN_PROCESS, "MY_PUBLIC_KEY2")
+        val list2 = oracleTaskRepository.findMyTasks(IN_PROCESS, "MY_PUBLIC_KEY2")
         Assertions.assertTrue(list2.isNotEmpty())
+
+        val list3 = oracleTaskRepository.findMyTasks(IN_PROCESS, "MY_PUBLIC_KEY3")
+        Assertions.assertTrue(list3.isEmpty())
     }
 }

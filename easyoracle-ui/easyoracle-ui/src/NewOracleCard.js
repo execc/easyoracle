@@ -13,6 +13,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+
+
+import { dataSourceLabels, knownOracles } from './common'
 
 const useStyles = makeStyles({
     root: {
@@ -30,19 +34,6 @@ const useStyles = makeStyles({
         marginBottom: 12,
     },
 });
-
-const dataSourceLabels = {
-    'html': {
-        'dataSourceExpression': 'Адрес страницы',
-        'dataTransformationScript': 'Элемент страницы',
-        'dataSourceType': 'HTML Страница'
-    },
-    'url': {
-        'dataSourceExpression': 'Адрес API',
-        'dataTransformationScript': 'Элемент API',
-        'dataSourceType': 'REST API'
-    }
-}
 
 const triggers = {
     'time': {
@@ -69,7 +60,8 @@ export default function NewOracleCard(props) {
     } = props
 
     const [dataSources, setDateSources] = useState([{
-        dataSourceType: 'url'
+        dataSourceType: 'url',
+        dataSourceOracles: knownOracles
     }])
 
     const [name, setName] = useState()
@@ -96,7 +88,8 @@ export default function NewOracleCard(props) {
 
     const doAddDataSource = () => {
         setDateSources([...dataSources, {
-            dataSourceType: 'url'
+            dataSourceType: 'url',
+            dataSourceOracles: knownOracles
         }])
     }
 
@@ -121,6 +114,10 @@ export default function NewOracleCard(props) {
 
     const validate = () => {
         return name && dataSources.filter(ds => !validateDs(ds)) == 0
+    }
+
+    const maxConfirmationCount = () => {
+        return dataSources.map(ds => ds.dataSourceOracles.length).reduce((a, c) => a + c, 0)
     }
 
 
@@ -178,6 +175,24 @@ export default function NewOracleCard(props) {
                                         </MenuItem>
                                     ))}
                                 </TextField>
+                                <Autocomplete
+                                    required
+                                    fullWidth
+                                    multiple
+                                    label="Исполнитель"
+                                    options={knownOracles}
+                                    getOptionLabel={(knownOracle) => knownOracle.address}
+                                    value={dataSource.dataSourceOracles}
+                                    onChange={(_, values) => setDataSourceAttribute(index, 'dataSourceOracles', values)}
+                                    renderInput={(params) => (
+                                        <TextField
+                                          {...params}
+                                          variant="standard"
+                                          label="Исполнители"
+                                          placeholder="Добавить исполнителя"
+                                        />
+                                      )}                                    
+                                />
                                 <TextField
                                     fullWidth
                                     required
@@ -226,7 +241,7 @@ export default function NewOracleCard(props) {
                             onChange={(e) => setSignatures(e.target.value)}
                             helperText="Количество подтверждений (подписей) от оракулов"
                         >
-                            {[1, 2, 3].map((key) => (
+                            {new Array(maxConfirmationCount()).fill(1).map( (_, i) => i + 1).map((key) => (
                                 <MenuItem key={key} value={key}>
                                     {key}
                                 </MenuItem>

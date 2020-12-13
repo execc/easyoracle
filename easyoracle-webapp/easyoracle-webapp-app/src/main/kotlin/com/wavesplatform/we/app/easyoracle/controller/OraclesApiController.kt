@@ -22,6 +22,11 @@ class OraclesApiController(
 
     @PostMapping
     fun create(@RequestBody request: CreateOracleRequest): ResponseEntity<OracleDefinition> {
+        request.definition.dataSources.forEach {
+            require(it.selector.isNotEmpty()) {
+                "Selector list should not be empty"
+            }
+        }
         val result = oracleService.createOracle(request.oracles, request.definition)
         return ResponseEntity(result, ACCEPTED)
     }

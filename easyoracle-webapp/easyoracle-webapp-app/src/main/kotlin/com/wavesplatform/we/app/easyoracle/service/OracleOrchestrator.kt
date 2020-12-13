@@ -74,7 +74,7 @@ class OracleOrchestrator(
 
     @Scheduled(fixedDelay = 300)
     fun eval() {
-        val tasksToRun = oracleTaskRepository.findByStatusAndDataPublicKeyNotOrDataPublicKeyIsNull(IN_PROCESS, publicKey)
+        val tasksToRun = oracleTaskRepository.findMyTasks(IN_PROCESS, publicKey)
         tasksToRun.forEach { task ->
             log.info("Executing task: ${task.id}")
             val result = oracleEvaluationService.evalAll(task.definition).map {
