@@ -1,0 +1,16 @@
+version: '3.4'
+networks:
+   wavesenterprise-network:
+     driver: bridge
+services:
+  oracle-ui:
+    image: akafakir/easyoracle-ui:0.0.1
+    restart: always
+    container_name: oracle-ui
+    hostname: oracle-ui
+    expose:
+      - 80
+    ports:
+      - 80:80
+    networks:
+      - wavesenterprise-network
