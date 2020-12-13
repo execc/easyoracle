@@ -9,11 +9,12 @@ interface OracleTaskRepository : JpaRepository<OracleTask, String> {
 
     @Query("""
         select t from OracleTask t
-        join   t.data d
-        join   t.definition.dataSources ds
-        join   ds.selector sel
+        join        t.definition.dataSources ds
+        join        ds.selector sel
         where  t.status = :status
-          and (d.publicKey <> :publicKey or d.publicKey is null)
+          and  not exists (select t1 from OracleTask t1 
+                           left join t1.data d 
+                          where d.publicKey = :publicKey)
           and  sel = :publicKey
     """)
     fun findMyTasks(

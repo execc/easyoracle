@@ -61,7 +61,7 @@ export default function NewOracleCard(props) {
 
     const [dataSources, setDateSources] = useState([{
         dataSourceType: 'url',
-        dataSourceOracles: knownOracles
+        selector: knownOracles.map(it => it.publicKey)
     }])
 
     const [name, setName] = useState()
@@ -89,7 +89,7 @@ export default function NewOracleCard(props) {
     const doAddDataSource = () => {
         setDateSources([...dataSources, {
             dataSourceType: 'url',
-            dataSourceOracles: knownOracles
+            selector: knownOracles.map(it => it.publicKey)
         }])
     }
 
@@ -117,7 +117,7 @@ export default function NewOracleCard(props) {
     }
 
     const maxConfirmationCount = () => {
-        return dataSources.map(ds => ds.dataSourceOracles.length).reduce((a, c) => a + c, 0)
+        return dataSources.map(ds => ds.selector.length).reduce((a, c) => a + c, 0)
     }
 
 
@@ -180,10 +180,10 @@ export default function NewOracleCard(props) {
                                     fullWidth
                                     multiple
                                     label="Исполнитель"
-                                    options={knownOracles}
-                                    getOptionLabel={(knownOracle) => knownOracle.address}
-                                    value={dataSource.dataSourceOracles}
-                                    onChange={(_, values) => setDataSourceAttribute(index, 'dataSourceOracles', values)}
+                                    options={knownOracles.map(it => it.publicKey)}
+                                    getOptionLabel={(publicKey) => knownOracles.find(it => it.publicKey === publicKey).address}
+                                    value={dataSource.selector}
+                                    onChange={(_, values) => setDataSourceAttribute(index, 'selector', values)}
                                     renderInput={(params) => (
                                         <TextField
                                           {...params}

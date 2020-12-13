@@ -48,7 +48,7 @@ export default function OracleCard(props) {
                     </Typography>
                     <Typography className={classes.pos}>
                         <strong>Исполнители:</strong> {
-                            knownOracles.map(oracle => <Chip style={{marginLeft: 5}} size="small" label={oracle.address} />)
+                            source.selector.map(oracle => <Chip style={{marginLeft: 5}} size="small" label={knownOracles.find(it => it.publicKey == oracle).address} />)
                         }
                     </Typography>
                     <Typography className={classes.pos}>
