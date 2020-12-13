@@ -1,5 +1,11 @@
 package com.wavesplatform.we.app.easyoracle.service.datasources
 
+import java.io.ByteArrayInputStream
+import java.net.URI
+import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.xpath.XPath
+import javax.xml.xpath.XPathConstants
+import javax.xml.xpath.XPathFactory
 import org.springframework.http.HttpStatus.OK
 import org.springframework.http.RequestEntity
 import org.springframework.http.ResponseEntity
@@ -7,14 +13,6 @@ import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.exchange
 import org.w3c.dom.Document
-import org.w3c.dom.NodeList
-import java.io.ByteArrayInputStream
-import java.net.URI
-import javax.xml.parsers.DocumentBuilderFactory
-import javax.xml.xpath.XPath
-import javax.xml.xpath.XPathConstants
-import javax.xml.xpath.XPathFactory
-
 
 @Component
 class XmlDataSource {
