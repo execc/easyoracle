@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/oracles")
-class ApiController(
+class OraclesApiController(
     val oracleService: OracleService
 ) {
 

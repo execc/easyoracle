@@ -100,12 +100,26 @@ export default function NewOracleCard(props) {
         setDateSources(newDataSources)
     }
 
+    const validateDs = (ds) => {
+        return ds.dataSourceExpression && ds.dataTransformationScript
+    }
+
+    const validate = () => {
+        return name && dataSources.filter(ds => !validateDs(ds)) == 0
+    }
+    
+
     return (
         <Card className={classes.root}>
             <CardContent>
                 <form style={{}} noValidate autoComplete="off" style={{ textAlign: 'left' }}>
                     <div>
-                        <TextField value={name} fullWidth label="Наименование оракула" onChange={(e) => setName(e.target.value)}/>
+                        <TextField
+                            required 
+                            value={name} 
+                            fullWidth 
+                            label="Наименование оракула" 
+                            onChange={(e) => setName(e.target.value)}/>
                     </div>
                     {
                         dataSources.map((dataSource, index) => <div key={index}>
@@ -117,6 +131,7 @@ export default function NewOracleCard(props) {
                             </Typography>
                             <div>
                                 <TextField
+                                    required
                                     fullWidth
                                     select
                                     label="Тип источника данных"
@@ -132,12 +147,14 @@ export default function NewOracleCard(props) {
                                 </TextField>
                                 <TextField 
                                     fullWidth 
+                                    required
                                     label={dataSourceLabels[dataSource.dataSourceType].dataSourceExpression} 
                                     value={dataSource.dataSourceExpression}
                                     onChange={(e) => setDataSourceAttribute(index, 'dataSourceExpression', e.target.value)}
                                     />
                                 <TextField 
                                     fullWidth 
+                                    required
                                     label={dataSourceLabels[dataSource.dataSourceType].dataTransformationScript}
                                     value={dataSource.dataTransformationScript}
                                     onChange={(e) => setDataSourceAttribute(index, 'dataTransformationScript', e.target.value)}
@@ -146,7 +163,17 @@ export default function NewOracleCard(props) {
                         </div>)
                     }
                     <div style={{marginTop: 5}}>
-                        <Button variant="outlined" color="primary" size="small" onClick={doAddDataSource}>Добавить источник</Button>
+                        <Button 
+                            variant="outlined" 
+                            color="primary" 
+                            size="small" 
+                            onClick={doAddDataSource}>Добавить источник</Button>
+                        <Button 
+                            style={{'marginLeft': 5}}
+                            variant="outlined" 
+                            color="secondary" 
+                            size="small" 
+                            onClick={doAddDataSource}>Протестировать</Button>
                     </div>
                     <Typography variant="h6" component="h2" style={{'marginTop': 10}} gutterBottom>
                         Консенсус
@@ -154,6 +181,7 @@ export default function NewOracleCard(props) {
                     <div>
                         <TextField
                             fullWidth
+                            required
                             select
                             label="Количество подтверждений"
                             value={signatures}
@@ -172,6 +200,7 @@ export default function NewOracleCard(props) {
                     </Typography>
                     <TextField
                             fullWidth
+                            required
                             select
                             label="Тип события"
                             value={'time'}
@@ -185,6 +214,7 @@ export default function NewOracleCard(props) {
                         </TextField>
                         <TextField
                             fullWidth
+                            required
                             select
                             label="Частота"
                             value={trigger}
@@ -201,7 +231,12 @@ export default function NewOracleCard(props) {
             </CardContent>
 
             <CardActions>
-                <Button variant="outlined" color="primary" size="small" onClick={doConfirm}>Подтвердить</Button>
+                <Button 
+                    disabled={!validate()}
+                    variant="outlined" 
+                    color="primary" 
+                    size="small" 
+                    onClick={doConfirm}>Подтвердить</Button>
             </CardActions>
         </Card>
     );
