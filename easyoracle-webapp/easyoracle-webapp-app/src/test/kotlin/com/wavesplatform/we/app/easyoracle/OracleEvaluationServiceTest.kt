@@ -4,6 +4,7 @@ import com.wavesplatform.we.app.easyoracle.domain.OracleDataSource
 import com.wavesplatform.we.app.easyoracle.service.OracleEvaluationService
 import com.wavesplatform.we.app.easyoracle.service.datasources.HtmlDataSource
 import com.wavesplatform.we.app.easyoracle.service.datasources.UrlDataSource
+import com.wavesplatform.we.app.easyoracle.service.datasources.XmlDataSource
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
@@ -11,7 +12,7 @@ class OracleEvaluationServiceTest {
 
     @Test
     fun testShouldFetchData() {
-        val service = OracleEvaluationService(UrlDataSource(), HtmlDataSource())
+        val service = OracleEvaluationService(UrlDataSource(), HtmlDataSource(), XmlDataSource())
         val def = OracleDataSource(
                 dataSourceType = "url",
                 dataSourceExpression = "http://www.7timer.info/bin/astro.php?lon=113.2&lat=23.1&ac=0&unit=metric&output=json&tzshift=0",
@@ -24,11 +25,25 @@ class OracleEvaluationServiceTest {
 
     @Test
     fun testShouldFetchDataFromCbrf() {
-        val service = OracleEvaluationService(UrlDataSource(), HtmlDataSource())
+        val service = OracleEvaluationService(UrlDataSource(), HtmlDataSource(), XmlDataSource())
         val def = OracleDataSource(
                 dataSourceType = "html",
                 dataSourceExpression = "https://cbr.ru/key-indicators/",
                 dataTransformationScript = "div.indicator.col-md-7.offset-md-1  div.rate.col-md-7 div.value",
+                selector = setOf()
+        )
+        val data = service.eval(def)
+        print(data)
+        Assertions.assertNotNull(data)
+    }
+
+    @Test
+    fun testShouldFetchDataFromCbrfXml() {
+        val service = OracleEvaluationService(UrlDataSource(), HtmlDataSource(), XmlDataSource())
+        val def = OracleDataSource(
+                dataSourceType = "xml",
+                dataSourceExpression = "http://www.cbr.ru/scripts/XML_daily.asp",
+                dataTransformationScript = "//*[@ID='R01010']/Value/text()",
                 selector = setOf()
         )
         val data = service.eval(def)

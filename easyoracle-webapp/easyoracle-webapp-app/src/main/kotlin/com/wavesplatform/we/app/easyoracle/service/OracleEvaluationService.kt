@@ -4,13 +4,15 @@ import com.wavesplatform.we.app.easyoracle.domain.OracleDataSource
 import com.wavesplatform.we.app.easyoracle.domain.OracleDefinition
 import com.wavesplatform.we.app.easyoracle.service.datasources.HtmlDataSource
 import com.wavesplatform.we.app.easyoracle.service.datasources.UrlDataSource
+import com.wavesplatform.we.app.easyoracle.service.datasources.XmlDataSource
 import org.codehaus.jackson.map.ObjectMapper
 import org.springframework.stereotype.Service
 
 @Service
 class OracleEvaluationService(
     private val urlDataSource: UrlDataSource,
-    private val htmlDataSource: HtmlDataSource
+    private val htmlDataSource: HtmlDataSource,
+    private val xmlDataSource: XmlDataSource
 ) {
 
     fun evalAll(definition: OracleDefinition): List<String> {
@@ -26,6 +28,9 @@ class OracleEvaluationService(
             }
             "html" -> {
                 htmlDataSource.eval(definition.dataSourceExpression, definition.dataTransformationScript)
+            }
+            "xml" -> {
+                xmlDataSource.eval(definition.dataSourceExpression, definition.dataTransformationScript)
             }
             else -> {
                 throw IllegalArgumentException("Illegal definition type")
