@@ -4,7 +4,7 @@ networks:
      driver: bridge
 services:
   oracle-ui:
-    image: akafakir/easyoracle-ui:0.0.3
+    image: akafakir/easyoracle-ui:0.0.4
     restart: always
     container_name: oracle-ui
     hostname: oracle-ui

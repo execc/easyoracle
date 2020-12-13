@@ -21,7 +21,12 @@ export const dataSourceLabels = {
     },
     'url': {
         'dataSourceExpression': 'Адрес API',
-        'dataTransformationScript': 'Элемент API',
-        'dataSourceType': 'REST API'
-    }
+        'dataTransformationScript': 'Элемент API (JsonPath)',
+        'dataSourceType': 'REST API (Json)'
+    },
+    'xml': {
+        'dataSourceExpression': 'Адрес API',
+        'dataTransformationScript': 'Элемент API (XPath)',
+        'dataSourceType': 'XML API'
+    },
 }
