@@ -1,0 +1,16 @@
+{
+  "name": "iot-gateway",
+  "version": "1.0.0",
+  "description": "Simpe IoT Gateway for IBM Watson",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@wiotp/sdk": "^0.7.7",
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.0"
+  }
+}

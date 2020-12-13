@@ -1,0 +1,16 @@
+version: '3.4'
+networks:
+   wavesenterprise-network:
+     driver: bridge
+services:
+  oracle-iot:
+    image: akafakir/easyoracle-iot-gateway:0.0.1
+    restart: always
+    container_name: oracle-iot
+    hostname: oracle-iot
+    expose:
+      - 3002
+    ports:
+      - 3002:3002
+    networks:
+      - wavesenterprise-network
