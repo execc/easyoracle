@@ -8,6 +8,7 @@ import com.wavesplatform.we.app.easyoracle.domain.OracleTaskStatus.COMPLETED
 import com.wavesplatform.we.app.easyoracle.domain.OracleTaskStatus.IN_PROCESS
 import com.wavesplatform.we.app.easyoracle.repositories.OracleDefinitionRepository
 import com.wavesplatform.we.app.easyoracle.repositories.OracleTaskRepository
+import com.wavesplatform.we.app.easyoracle.repositories.findMyTasks
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledFuture
 import javax.annotation.PostConstruct
@@ -77,7 +78,10 @@ class OracleOrchestrator(
         val tasksToRun = oracleTaskRepository.findMyTasks(IN_PROCESS, publicKey)
         tasksToRun.forEach { task ->
             log.info("Executing task: ${task.id}")
-            val result = oracleEvaluationService.evalAll(task.definition).map {
+            val result = task.definition.dataSources.filter {
+                it.selector.contains(publicKey)
+            }.map { oracleEvaluationService.eval(it)
+            }.map {
                 com.wavesplatform.we.app.easyoracle.domain.OracleData(
                         result = it,
                         publicKey = publicKey,

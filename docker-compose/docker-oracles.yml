@@ -4,7 +4,7 @@ networks:
      driver: bridge
 services:
   oracle-1:
-    image: akafakir/easyoracle-webapp-app:1.0.0-SNAPSHOT-20201213145351-ec3b52b
+    image: akafakir/easyoracle-webapp-app:1.0.0-SNAPSHOT-20201213163538-46395e9.dirty
     restart: always
     container_name: oracle-1
     hostname: oracle-1
@@ -18,7 +18,7 @@ services:
     networks:
       - wavesenterprise-network
   oracle-2:
-    image: akafakir/easyoracle-webapp-app:1.0.0-SNAPSHOT-20201213145351-ec3b52b
+    image: akafakir/easyoracle-webapp-app:1.0.0-SNAPSHOT-20201213163538-46395e9.dirty
     restart: always
     container_name: oracle-2
     hostname: oracle-2
@@ -32,7 +32,7 @@ services:
     networks:
       - wavesenterprise-network
   oracle-3:
-    image: akafakir/easyoracle-webapp-app:1.0.0-SNAPSHOT-20201213145351-ec3b52b
+    image: akafakir/easyoracle-webapp-app:1.0.0-SNAPSHOT-20201213163538-46395e9.dirty
     restart: always
     container_name: oracle-3
     hostname: oracle-3

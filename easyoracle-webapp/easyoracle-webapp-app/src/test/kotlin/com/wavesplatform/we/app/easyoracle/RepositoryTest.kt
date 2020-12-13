@@ -7,6 +7,7 @@ import com.wavesplatform.we.app.easyoracle.domain.OracleTask
 import com.wavesplatform.we.app.easyoracle.domain.OracleTaskStatus.IN_PROCESS
 import com.wavesplatform.we.app.easyoracle.repositories.OracleDefinitionRepository
 import com.wavesplatform.we.app.easyoracle.repositories.OracleTaskRepository
+import com.wavesplatform.we.app.easyoracle.repositories.findMyTasks
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,6 +22,8 @@ class RepositoryTest : AbstractIntegrationTest() {
 
     @Test
     fun testReadsAndWrites() {
+        oracleTaskRepository.deleteAll()
+
         val definition = OracleDefinition(
                 dataSources = listOf(
                         OracleDataSource(
@@ -60,6 +63,7 @@ class RepositoryTest : AbstractIntegrationTest() {
 
     @Test
     fun testReadsAndWritesEmpty() {
+        oracleTaskRepository.deleteAll()
         val definition = OracleDefinition(
                 dataSources = listOf(
                         OracleDataSource(
@@ -91,5 +95,47 @@ class RepositoryTest : AbstractIntegrationTest() {
 
         val list3 = oracleTaskRepository.findMyTasks(IN_PROCESS, "MY_PUBLIC_KEY3")
         Assertions.assertTrue(list3.isEmpty())
+    }
+
+    @Test
+    fun testReadsAndWritesMultipleDs() {
+        oracleTaskRepository.deleteAll()
+        val definition = OracleDefinition(
+                dataSources = listOf(
+                        OracleDataSource(
+                                dataSourceType = "url",
+                                dataSourceExpression = "some exprt",
+                                dataTransformationScript = "some script",
+                                selector = setOf("MY_PUBLIC_KEY", "MY_PUBLIC_KEY2")
+                        ),
+                        OracleDataSource(
+                                dataSourceType = "url",
+                                dataSourceExpression = "some exprt 2",
+                                dataTransformationScript = "some script 2",
+                                selector = setOf("MY_PUBLIC_KEY3", "MY_PUBLIC_KEY2")
+                        )
+                ),
+                signatures = 3,
+                windowSize = 1,
+                trigger = "some trigger",
+                contractId = "",
+                contractName = "TEST"
+        )
+        oracleDefinitionRepository.saveAndFlush(definition)
+
+        val task = OracleTask(
+                definition = definition,
+                data = setOf()
+        )
+        oracleTaskRepository.saveAndFlush(task)
+
+        val list = oracleTaskRepository.findMyTasks(IN_PROCESS, "MY_PUBLIC_KEY")
+        Assertions.assertTrue(list.isNotEmpty())
+
+        val list2 = oracleTaskRepository.findMyTasks(IN_PROCESS, "MY_PUBLIC_KEY2")
+        Assertions.assertTrue(list2.isNotEmpty())
+
+        val list3 = oracleTaskRepository.findMyTasks(IN_PROCESS, "MY_PUBLIC_KEY3")
+        Assertions.assertTrue(list3.isNotEmpty())
     }
 }
