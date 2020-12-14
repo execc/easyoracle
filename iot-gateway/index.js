@@ -12,9 +12,6 @@ let appConfig = ApplicationConfig.parseEnvVars();
 let appClient = new ApplicationClient(appConfig);
 
 const cb = async (type, id, event, _, data) => {
-    // Store sensor data in IPFS
-    const dataId = new Date().getTime().toString()
-    console.log(`Got measurement ${dataId}`)
     const dataAsString = data.toString('utf-8')
     const json = JSON.parse(dataAsString)
     console.log(`Updated cached value key=[${type}/${id}/${event}] value = ${JSON.stringify(json, null, 2)}`)
